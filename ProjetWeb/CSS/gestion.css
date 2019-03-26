@@ -1,0 +1,31 @@
+#fond {
+	background-color: #efefef
+}
+
+#choix1, #choix2, #choix3 {
+	color: black;
+    position: relative;
+    left: 2%;
+    background-color: #e8e8e8;
+}
+
+
+#volet{
+	position: absolute;
+	left: 10%;
+	right: 10%;
+	top: 20%
+}
+
+#entete{
+	background-color: black
+}
+
+#bouton_menu{
+
+}
+
+
+
+
+
