@@ -1,0 +1,15 @@
+<?php
+  session_start();
+?> /* Demarrer session*/
+
+<?php
+/* Etablir connexion Base de données(mettre au début du body) */
+$host = 'localhost';
+$user = 'root';
+$pass = '';
+$db = 'projetweb2018';
+$mysqli = new mysqli($host,$user,$pass,$db) or die($mysqli->error);?>
+
+
+
+
