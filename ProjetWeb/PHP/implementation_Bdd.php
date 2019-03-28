@@ -1,11 +1,4 @@
-<!DOCTYPE html>
-<html lang="fr" dir="ltr">
-  <head>
-    <meta charset="utf-8">
-    <title></title>
-  </head>
-  <body>
-    <?php
+<?php
 
     define('HOSTNAME','localhost');
     define('DB_USERNAME','root');
@@ -42,7 +35,7 @@
           population double NOT NULL,
           code_p int(5) NOT NULL,
           shape_q json DEFAULT NULL,
-          liste_b json  DEFAULT NULL,
+          liste_b json DEFAULT NULL,
           PRIMARY KEY(`nom_q`)
         )";
 
@@ -69,19 +62,26 @@
         // II- Peuplement de la base de données :
 
         // 2-1 Récupération des données JSON :
-        $json_data_population = file_get_contents('./BDD/population_toulouse.json');
-        $json_data_bornes = file_get_contents('./BDD/bornes_wifi.json');
+        $json_data_population = file_get_contents('..\BDD\population_toulouse.json');
+        $json_data_bornes = file_get_contents('..\BDD\bornes_wifi.json');
 
-        // 2-2 Tronsformation des données Json en Tableau PHP
+        // 2-2 Tronsformation des données Json en Tableaux PHP
         $data_array_population = json_decode($json_data_population, true);
         $data_array_bornes = json_decode($json_data_bornes, true);
 
-        //var_dump($data_array_bornes);
+        //var_dump($data_array_population);
 
         // 2-3 Peuplement de la base de données ...
         foreach($data_array_population as $row) {
+
+          $array_to_string = json_encode($row['fields']['geo_shape']['coordinates']);
+
           $insert_query = "INSERT INTO `quartiers`(`nom_q`, `population`, `code_p`, `shape_q` , `liste_b`)
-                           VALUES ('".$row['fields']['libgq']."','".$row['fields']['p11_pop']."',31000,'[{\"key1\": \"value1\", \"key2\": \"value2\"}]',NULL)";
+                           VALUES ('".$row['fields']['libgq']."',
+                                   '".$row['fields']['p11_pop']."',
+                                   31000,
+                                   '$array_to_string',
+                                   NULL)";
 
           mysqli_query($mysqli2, $insert_query);
         }
@@ -101,6 +101,4 @@
           mysqli_query($mysqli2, $insert_query2);
         }
     }
-    ?>
-  </body>
-</html>
+?>
