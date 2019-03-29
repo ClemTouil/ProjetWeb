@@ -1,4 +1,5 @@
-<!DOCTYPE html>
+
+
 <html>
 <head>
 	
@@ -185,11 +186,28 @@ data-parent="#accordionExample">
 					<label for="quartier" class="col-sm-2 col-form-label">Quartier</label>
 					<div class="col-sm-10">
 						    <select class="form-control" id="quartier">
+								<?php
+
+									define('HOSTNAME','localhost');
+									define('DB_USERNAME','root');
+									define('DB_PASSWORD','');
+									define('DB_NAME','projet_web');
+
+									$mysqli = new mysqli(HOSTNAME, DB_USERNAME, DB_PASSWORD, DB_NAME);
+
+									if ($mysqli->connect_errno) { // Si il y'a une erreur de connexion alors :
+										printf("Échec de la connexion : %s\n", $mysqli->connect_error);
+										exit();
+									}else { // Si la connexion se passe bien alors :
+
+										$result = $mysqli->query("SELECT nom_q FROM quartiers") or die($mysqli->error);
+
+										foreach(mysqli_fetch_array($result) as $row) {
+											echo '<option value= "'.$row['nom_q'].'" >'.$row['nom_q'].'</option>';
+										}
+									}
+								?>
 								<option>1</option>
-								<option>2</option>
-								<option>3</option>
-								<option>4</option>
-								<option>5</option>
 							</select>
 					</div>
 				</div>

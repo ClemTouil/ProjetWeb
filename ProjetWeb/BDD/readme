@@ -1,6 +1,7 @@
 <?php
   session_start();
-?> /* Demarrer session*/
+?> 
+/* Demarrer session */
 
 <?php
 /* Etablir connexion Base de données(mettre au début du body) */

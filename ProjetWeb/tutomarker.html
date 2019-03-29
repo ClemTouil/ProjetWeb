@@ -27,7 +27,6 @@
 	
 </head>
 <body>
-
 <div id='map'></div>
 
 <script>
@@ -46,18 +45,16 @@
 	
 	//Génerer Icones
 	var icon = L.Icon.extend({
-		options: {
-			
-			iconSize:     [30, 30],
-			
-			iconAnchor:   [12, 94],
-			popupAnchor:  [-3, -76]
+		options: {			
+			iconSize:     [10, 10]
 		}
 	});
 
 	var wifiIcon = new icon({iconUrl: 'http://pngimg.com/uploads/wifi/wifi_PNG62360.png'});
 
 	L.marker([43.600000, 1.433333], {icon: wifiIcon}).bindPopup("Je suis une borne.").addTo(map);
+	
+	//Creer Polygone
 	
 	
 	
