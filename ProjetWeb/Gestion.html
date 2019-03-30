@@ -1,5 +1,4 @@
-
-
+<!DOCTYPE html>
 <html>
 <head>
 	
@@ -8,11 +7,9 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<link type="text/css" rel="stylesheet" href="CSS/gestion.css">
 	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
 	<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
 	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
-	
 	
 </head>
 <body id="fond">
@@ -21,10 +18,10 @@
 	</br>
 	</br>
 	</br>
-	<ul id="bouton_menu">
-		<li><button type="submit" class="btn btn-light">Visualisation</button></li>
-		<li><button type="submit" class="btn btn-light">Gestion</button></li>
-	</ul>
+	<div id="bouton_menu">
+		<a href="Visualisation.html" role="button" class="btn btn-light" >Visualisation</a>
+		<a href="Gestion.html" role="button" class="btn btn-light" >Gestion</a>
+	</div>
 
 </header>
 
@@ -50,7 +47,6 @@ data-parent="#accordionExample">
 					<thead>
 						<tr>
 							<th scope="col">#</th>
-							<th scope="col">Quartier</th>
 							<th scope="col">Site</th>
 							<th scope="col">Année installation</th>
 							<th scope="col">Zone emission</th>
@@ -65,38 +61,35 @@ data-parent="#accordionExample">
 						<tr>
 							<th scope="row">1</th>
 							<td>Mark</td>
-							<td>Mark</td>
 							<td>Otto</td>
 							<td>@mdo</td>
 							<td>@mdo</td>
 							<td>@mdo</td>
 							<td>@mdo</td>
 							<td>@mdo</td>
-							<td><a class="badge badge-pill badge-dark" href="#"><i class="fas fa-pencil-alt"></i></a></td>
+							<td>@mdo</td>
 						</tr>
 						<tr>
 							<th scope="row">2</th>
 							<td>Jacob</td>
-							<td>Mark</td>
 							<td>Thornton</td>
 							<td>@fat</td>
 							<td>@mdo</td>
 							<td>@mdo</td>
 							<td>@mdo</td>
 							<td>@mdo</td>
-							<td><a class="badge badge-pill badge-dark" href="#"><i class="fas fa-pencil-alt"></i></a></td>
+							<td>@mdo</td>
 						</tr>
 						<tr>
 							<th scope="row">3</th>
 							<td>Larry</td>
-							<td>Mark</td>
 							<td>the Bird</td>
 							<td>@twitter</td>
 							<td>@mdo</td>
 							<td>@mdo</td>
 							<td>@mdo</td>
 							<td>@mdo</td>
-							<td><a class="badge badge-pill badge-dark" href="#"><i class="fas fa-pencil-alt"></i></a></td>
+							<td>@mdo</td>
 						</tr>
 				</tbody>
 				</table>
@@ -125,7 +118,6 @@ data-parent="#accordionExample">
 							<th scope="col">Quartier</th>
 							<th scope="col">Population</th>
 							<th scope="col">Code Postal</th>
-							<th scope="col">Nombres Bornes Wi-Fi</th>
 							<th scope="col">Modifier</th>
 						</tr>
 					</thead>
@@ -136,7 +128,6 @@ data-parent="#accordionExample">
 							<td>Otto</td>
 							<td>@mdo</td>
 							<td>@mdo</td>
-							<td><a class="badge badge-pill badge-dark" href="#"><i class="fas fa-pencil-alt"></i></a></td>
 						</tr>
 						<tr>
 							<th scope="row">2</th>
@@ -144,7 +135,6 @@ data-parent="#accordionExample">
 							<td>Thornton</td>
 							<td>@fat</td>
 							<td>@mdo</td>
-							<td><a class="badge badge-pill badge-dark" href="#"><i class="fas fa-pencil-alt"></i></a></td>
 						</tr>
 						<tr>
 							<th scope="row">3</th>
@@ -152,7 +142,6 @@ data-parent="#accordionExample">
 							<td>the Bird</td>
 							<td>@twitter</td>
 							<td>@mdo</td>
-							<td><a class="badge badge-pill badge-dark" href="#"><i class="fas fa-pencil-alt"></i></a></td>
 						</tr>
 				</tbody>
 				</table>
@@ -175,82 +164,53 @@ data-parent="#accordionExample">
 			<div class="card-body" id="ajout_borne">
 
 			<form>
-				<div class="form-group row">
-					<label for="coordonnees" class="col-sm-2 col-form-label">Coordonnées</label>
-					<div class="col-sm-10">
-						<input type="text" class="form-control" id="coordonnees" placeholder="46,66666 ; 5,456">
-					</div>
-				</div>
-
-				<div class="form-group row">
-					<label for="quartier" class="col-sm-2 col-form-label">Quartier</label>
-					<div class="col-sm-10">
-						    <select class="form-control" id="quartier">
-								<?php
-
-									define('HOSTNAME','localhost');
-									define('DB_USERNAME','root');
-									define('DB_PASSWORD','');
-									define('DB_NAME','projet_web');
-
-									$mysqli = new mysqli(HOSTNAME, DB_USERNAME, DB_PASSWORD, DB_NAME);
-
-									if ($mysqli->connect_errno) { // Si il y'a une erreur de connexion alors :
-										printf("Échec de la connexion : %s\n", $mysqli->connect_error);
-										exit();
-									}else { // Si la connexion se passe bien alors :
-
-										$result = $mysqli->query("SELECT nom_q FROM quartiers") or die($mysqli->error);
-
-										foreach(mysqli_fetch_array($result) as $row) {
-											echo '<option value= "'.$row['nom_q'].'" >'.$row['nom_q'].'</option>';
-										}
-									}
-								?>
-								<option>1</option>
-							</select>
-					</div>
-				</div>
 			
 				<div class="form-group row">
-					<label for="site" class="col-sm-2 col-form-label">Site</label>
+					<label for="inputEmail3" class="col-sm-2 col-form-label">Site</label>
 					<div class="col-sm-10">
-						<input type="text" class="form-control" id="site" placeholder="Capitole">
+						<input type="text" class="form-control" id="inputEmail3" placeholder="Capitole">
 					</div>
 				</div>
 				
 				<div class="form-group row">
-					<label for="adresse" class="col-sm-2 col-form-label">Adresse</label>
+					<label for="inputPassword3" class="col-sm-2 col-form-label">Année d'installation</label>
 					<div class="col-sm-10">
-						<input type="text" class="form-control" id="adresse" placeholder="106 avenue Victor Hugo">
+						<input type="text" class="form-control" id="inputPassword3" placeholder="2010">
 					</div>
 				</div>
 				
 				<div class="form-group row">
-					<label for="annee_installation" class="col-sm-2 col-form-label">Année d'installation</label>
+					<label for="inputPassword3" class="col-sm-2 col-form-label">Zone d'emission</label>
 					<div class="col-sm-10">
-						<input type="text" class="form-control" id="annee_installation" placeholder="2010">
+						<input type="text" class="form-control" id="inputPassword3" placeholder="intérieur/exterieur">
 					</div>
 				</div>
 				
 				<div class="form-group row">
-					<label for="zone_emission" class="col-sm-2 col-form-label">Zone d'emission</label>
+					<label for="inputPassword3" class="col-sm-2 col-form-label">Nom de connexion</label>
 					<div class="col-sm-10">
-						<input type="text" class="form-control" id="zone_emission" placeholder="intérieur/exterieur">
+						<input type="text" class="form-control" id="inputPassword3" placeholder="Tlse_WiFi">
 					</div>
 				</div>
 				
 				<div class="form-group row">
-					<label for="nom_connexion" class="col-sm-2 col-form-label">Nom de connexion</label>
+					<label for="inputPassword3" class="col-sm-2 col-form-label">Disponibilité</label>
 					<div class="col-sm-10">
-						<input type="text" class="form-control" id="nom_connexion" placeholder="Tlse_WiFi">
+						<input type="text" class="form-control" id="inputPassword3" placeholder="24h/24h">
 					</div>
 				</div>
 				
 				<div class="form-group row">
-					<label for="disponibilite" class="col-sm-2 col-form-label">Disponibilité</label>
+					<label for="inputPassword3" class="col-sm-2 col-form-label">Adresse</label>
 					<div class="col-sm-10">
-						<input type="text" class="form-control" id="disponibilite" placeholder="24h/24h">
+						<input type="text" class="form-control" id="inputPassword3" placeholder="106 avenue Victor Hugo">
+					</div>
+				</div>
+				
+				<div class="form-group row">
+					<label for="inputPassword3" class="col-sm-2 col-form-label">Commune</label>
+					<div class="col-sm-10">
+						<input type="text" class="form-control" id="inputPassword3" placeholder="Toulouse">
 					</div>
 				</div>
 				
