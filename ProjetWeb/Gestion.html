@@ -46,20 +46,18 @@ data-parent="#accordionExample">
 				<table class="table">
 					<thead>
 						<tr>
-							<th scope="col">#</th>
+							<th scope="col">Quartier</th>
+							<th scope="col">Adresse</th>
 							<th scope="col">Site</th>
-							<th scope="col">Année installation</th>
-							<th scope="col">Zone emission</th>
 							<th scope="col">Nom connexion</th>
 							<th scope="col">Disponibilite</th>
-							<th scope="col">Adresse</th>
-							<th scope="col">Commune</th>
+							<th scope="col">Zone emission</th>
+							<th scope="col">Année installation</th>
 							<th scope="col">Modifier</th>
 						</tr>
 					</thead>
 				<tbody>
 						<tr>
-							<th scope="row">1</th>
 							<td>Mark</td>
 							<td>Otto</td>
 							<td>@mdo</td>
@@ -70,10 +68,9 @@ data-parent="#accordionExample">
 							<td>@mdo</td>
 						</tr>
 						<tr>
-							<th scope="row">2</th>
-							<td>Jacob</td>
-							<td>Thornton</td>
-							<td>@fat</td>
+							<td>Mark</td>
+							<td>Otto</td>
+							<td>@mdo</td>
 							<td>@mdo</td>
 							<td>@mdo</td>
 							<td>@mdo</td>
@@ -81,10 +78,9 @@ data-parent="#accordionExample">
 							<td>@mdo</td>
 						</tr>
 						<tr>
-							<th scope="row">3</th>
-							<td>Larry</td>
-							<td>the Bird</td>
-							<td>@twitter</td>
+							<td>Mark</td>
+							<td>Otto</td>
+							<td>@mdo</td>
 							<td>@mdo</td>
 							<td>@mdo</td>
 							<td>@mdo</td>
@@ -114,34 +110,34 @@ data-parent="#accordionExample">
 				<table class="table" id="tableau_population">
 					<thead>
 						<tr>
-							<th scope="col">#</th>
 							<th scope="col">Quartier</th>
 							<th scope="col">Population</th>
 							<th scope="col">Code Postal</th>
+							<th scope="col">Nombres Bornes Wi-Fi</th>
 							<th scope="col">Modifier</th>
 						</tr>
 					</thead>
 				<tbody>
-						<tr>
-							<th scope="row">1</th>
+						<tr>						
 							<td>Mark</td>
 							<td>Otto</td>
 							<td>@mdo</td>
 							<td>@mdo</td>
+							<td><a class="badge badge-pill badge-dark" href="#"><i class="fas fa-pencil-alt"></i></a></td>
 						</tr>
-						<tr>
-							<th scope="row">2</th>
+						<tr>							
 							<td>Jacob</td>
 							<td>Thornton</td>
 							<td>@fat</td>
 							<td>@mdo</td>
+							<td><a class="badge badge-pill badge-dark" href="#"><i class="fas fa-pencil-alt"></i></a></td>
 						</tr>
 						<tr>
-							<th scope="row">3</th>
 							<td>Larry</td>
 							<td>the Bird</td>
 							<td>@twitter</td>
 							<td>@mdo</td>
+							<td><a class="badge badge-pill badge-dark" href="#"><i class="fas fa-pencil-alt"></i></a></td>
 						</tr>
 				</tbody>
 				</table>
@@ -164,11 +160,23 @@ data-parent="#accordionExample">
 			<div class="card-body" id="ajout_borne">
 
 			<form>
-			
+
+				<div class="form-group row">
+					<label for="inputEmail3" class="col-sm-2 col-form-label">Quartier</label>
+					<div class="col-sm-10">
+							<select class="form-control" id="quartier">
+								<?php include('PHP/test.php') ; ?> 
+								<option>1</option>
+							</select>
+					</div>
+				</div>
+				
 				<div class="form-group row">
 					<label for="inputEmail3" class="col-sm-2 col-form-label">Site</label>
 					<div class="col-sm-10">
 						<input type="text" class="form-control" id="inputEmail3" placeholder="Capitole">
+
+
 					</div>
 				</div>
 				
