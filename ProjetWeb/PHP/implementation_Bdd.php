@@ -74,7 +74,13 @@
         // 2-3 Peuplement de la base de données ...
         foreach($data_array_population as $row) {
 
-          $array_to_string = json_encode($row['fields']['geo_shape']['coordinates']);
+          $array_to_string = $row['fields']['geo_shape']['coordinates'][0];
+
+          foreach($array_to_string as &$row2) {
+              $row2 = array_reverse($row2);
+          }
+
+          $array_to_string = json_encode($array_to_string);
 
           $insert_query = "INSERT INTO `quartiers`(`nom_q`, `population`, `code_p`, `shape_q` , `liste_b`)
                            VALUES ('".$row['fields']['libgq']."',
