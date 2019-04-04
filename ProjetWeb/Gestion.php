@@ -14,6 +14,15 @@
 </head>
 <body id="fond">
 
+
+<?php
+    define('HOSTNAME','localhost');
+    define('DB_USERNAME','root');
+    define('DB_PASSWORD','');
+    define('DB_NAME','projet_web');
+
+    $mysqli = new mysqli(HOSTNAME, DB_USERNAME, DB_PASSWORD, DB_NAME); ?>
+	
 <header id="entete">
 	</br>
 	</br>
@@ -57,36 +66,7 @@ data-parent="#accordionExample">
 						</tr>
 					</thead>
 				<tbody>
-						<tr>
-							<td>Mark</td>
-							<td>Otto</td>
-							<td>@mdo</td>
-							<td>@mdo</td>
-							<td>@mdo</td>
-							<td>@mdo</td>
-							<td>@mdo</td>
-							<td>@mdo</td>
-						</tr>
-						<tr>
-							<td>Mark</td>
-							<td>Otto</td>
-							<td>@mdo</td>
-							<td>@mdo</td>
-							<td>@mdo</td>
-							<td>@mdo</td>
-							<td>@mdo</td>
-							<td>@mdo</td>
-						</tr>
-						<tr>
-							<td>Mark</td>
-							<td>Otto</td>
-							<td>@mdo</td>
-							<td>@mdo</td>
-							<td>@mdo</td>
-							<td>@mdo</td>
-							<td>@mdo</td>
-							<td>@mdo</td>
-						</tr>
+					<?php include 'PHP/ListeBornesGestion.php' ; ?>
 				</tbody>
 				</table>
 
@@ -112,33 +92,12 @@ data-parent="#accordionExample">
 						<tr>
 							<th scope="col">Quartier</th>
 							<th scope="col">Population</th>
-							<th scope="col">Code Postal</th>
 							<th scope="col">Nombres Bornes Wi-Fi</th>
 							<th scope="col">Modifier</th>
 						</tr>
 					</thead>
 				<tbody>
-						<tr>						
-							<td>Mark</td>
-							<td>Otto</td>
-							<td>@mdo</td>
-							<td>@mdo</td>
-							<td><a class="badge badge-pill badge-dark" href="#"><i class="fas fa-pencil-alt"></i></a></td>
-						</tr>
-						<tr>							
-							<td>Jacob</td>
-							<td>Thornton</td>
-							<td>@fat</td>
-							<td>@mdo</td>
-							<td><a class="badge badge-pill badge-dark" href="#"><i class="fas fa-pencil-alt"></i></a></td>
-						</tr>
-						<tr>
-							<td>Larry</td>
-							<td>the Bird</td>
-							<td>@twitter</td>
-							<td>@mdo</td>
-							<td><a class="badge badge-pill badge-dark" href="#"><i class="fas fa-pencil-alt"></i></a></td>
-						</tr>
+						<?php include 'PHP/ListeQuartiersGestion.php' ; ?>
 				</tbody>
 				</table>
 
@@ -164,9 +123,8 @@ data-parent="#accordionExample">
 				<div class="form-group row">
 					<label for="inputEmail3" class="col-sm-2 col-form-label">Quartier</label>
 					<div class="col-sm-10">
-							<select class="form-control" id="quartier">
-								<?php include('PHP/test.php') ; ?> 
-								<option>1</option>
+							<select class="form-control" id="quartier">								 
+								<?php include 'PHP/ListeNomsQuartiers.php' ; ?>
 							</select>
 					</div>
 				</div>
