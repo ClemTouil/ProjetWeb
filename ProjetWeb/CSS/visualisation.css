@@ -50,3 +50,20 @@ input[type=text]:focus {
 			width: 50%;
 }
 
+
+quartiertitle { 
+  font-weight: bold;
+  text-decoration: underline;
+  
+}
+
+ul{ list-style-type: none;
+	
+
+ }
+ 
+ 
+ button{
+	 
+	 right:50%;
+ }

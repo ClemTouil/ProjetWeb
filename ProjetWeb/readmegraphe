@@ -1,0 +1,34 @@
+		function drawChart(dataArray) {
+			var data = google.visualization.arrayToDataTable(dataArray);
+			var options = {
+				title: 'Ventes par catégorie',
+				is3D: true,
+                                width:400,
+                                height:400,
+                                
+                           
+			};
+			var chart = new google.visualization.PieChart(document.getElementById('piechart'));
+			chart.draw(data, options);
+		}
+
+		// Afficher les ventes par client
+		function doAjax() {
+			$.ajax({
+				url: "ServletGraphiques",
+				dataType: "json",
+				success: // La fonction qui traite les résultats
+					function (result) {
+						// On reformate le résultat comme un tableau
+						var chartData = [];
+						// On met le descriptif des données
+						chartData.push(["Catégories", "Ventes"]);
+						for(var client in result.records) {
+							chartData.push([client, result.records[client]]);
+						}
+						// On dessine le graphique
+						drawChart(chartData);
+					},
+				error: showError
+			});
+		}
