@@ -28,8 +28,8 @@
 	</br>
 	</br>
 	<div id="bouton_menu">
-		<a href="Visualisation.html" role="button" class="btn btn-light" >Visualisation</a>
-		<a href="Gestion.html" role="button" class="btn btn-light" >Gestion</a>
+		<a href="Visualisation.php" role="button" class="btn btn-light" >Visualisation</a>
+		<a href="Gestion.php" role="button" class="btn btn-light" >Gestion</a>
 	</div>
 
 </header>
