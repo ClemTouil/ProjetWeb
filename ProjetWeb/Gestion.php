@@ -118,10 +118,10 @@ data-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree"
 data-parent="#accordionExample">
 			<div class="card-body" id="ajout_borne">
 
-			<form>
+			<form method="post" action="AjouterBornesGestion.php">
 
 				<div class="form-group row">
-					<label for="inputEmail3" class="col-sm-2 col-form-label">Quartier</label>
+					<label for="quartier" class="col-sm-2 col-form-label">Quartier</label>
 					<div class="col-sm-10">
 							<select class="form-control" id="quartier">								 
 								<?php include 'PHP/ListeNomsQuartiers.php' ; ?>
@@ -130,57 +130,49 @@ data-parent="#accordionExample">
 				</div>
 				
 				<div class="form-group row">
-					<label for="inputEmail3" class="col-sm-2 col-form-label">Site</label>
+					<label for="site" class="col-sm-2 col-form-label">Site</label>
 					<div class="col-sm-10">
-						<input type="text" class="form-control" id="inputEmail3" placeholder="Capitole">
+						<input type="text" class="form-control" id="site" placeholder="Capitole">
 
 
 					</div>
 				</div>
 				
 				<div class="form-group row">
-					<label for="inputPassword3" class="col-sm-2 col-form-label">Année d'installation</label>
+					<label for="annee_ins" class="col-sm-2 col-form-label">Année d'installation</label>
 					<div class="col-sm-10">
-						<input type="text" class="form-control" id="inputPassword3" placeholder="2010">
+						<input type="text" class="form-control" id="annee_ins" placeholder="2010">
 					</div>
 				</div>
 				
 				<div class="form-group row">
-					<label for="inputPassword3" class="col-sm-2 col-form-label">Zone d'emission</label>
+					<label for="zone" class="col-sm-2 col-form-label">Zone d'emission</label>
 					<div class="col-sm-10">
-						<input type="text" class="form-control" id="inputPassword3" placeholder="intérieur/exterieur">
+						<input type="text" class="form-control" id="zone" placeholder="intérieur/exterieur">
 					</div>
 				</div>
 				
 				<div class="form-group row">
-					<label for="inputPassword3" class="col-sm-2 col-form-label">Nom de connexion</label>
+					<label for="nom_c" class="col-sm-2 col-form-label">Nom de connexion</label>
 					<div class="col-sm-10">
-						<input type="text" class="form-control" id="inputPassword3" placeholder="Tlse_WiFi">
+						<input type="text" class="form-control" id="nom_c" placeholder="Tlse_WiFi">
 					</div>
 				</div>
 				
 				<div class="form-group row">
-					<label for="inputPassword3" class="col-sm-2 col-form-label">Disponibilité</label>
+					<label for="dispo" class="col-sm-2 col-form-label">Disponibilité</label>
 					<div class="col-sm-10">
-						<input type="text" class="form-control" id="inputPassword3" placeholder="24h/24h">
+						<input type="text" class="form-control" id="dispo" placeholder="24h/24h">
 					</div>
 				</div>
 				
 				<div class="form-group row">
-					<label for="inputPassword3" class="col-sm-2 col-form-label">Adresse</label>
+					<label for="adresse" class="col-sm-2 col-form-label">Adresse</label>
 					<div class="col-sm-10">
-						<input type="text" class="form-control" id="inputPassword3" placeholder="106 avenue Victor Hugo">
+						<input type="text" class="form-control" id="adresse" placeholder="106 avenue Victor Hugo">
 					</div>
 				</div>
 				
-				<div class="form-group row">
-					<label for="inputPassword3" class="col-sm-2 col-form-label">Commune</label>
-					<div class="col-sm-10">
-						<input type="text" class="form-control" id="inputPassword3" placeholder="Toulouse">
-					</div>
-				</div>
-				
-
 				<div class="form-group row">
 					<div class="col-sm-10">
 						<button type="submit" class="btn btn-dark">Valider</button>

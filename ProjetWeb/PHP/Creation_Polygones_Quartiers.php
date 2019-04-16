@@ -18,14 +18,14 @@
         exit();
     }else { // Si la connexion se passe bien alors :
 
-        $result = mysqli_query($mysqli,"SELECT nom_q, shape_q, population FROM quartiers ");
+        $result = mysqli_query($mysqli,"SELECT nom_q, shape_q, population, liste_b FROM quartiers ");
         while ( $row = mysqli_fetch_array($result)) {
 			//Generer la variable avec nom du quartier 
 			$quartier = $row['nom_q']; // pour l'adaptation du nom de l'url
 			$bannis = array(' ','-','\'');//Complète ici tout les mots qui dooivent être remplacé
 			$accepte = array('_','_','_');
 			$quartier = str_replace($bannis, $accepte, $row['nom_q']); // on remplace les espaces par des tirets
-            echo 'var '.$quartier.' = L.polygon('.$row['shape_q'].',{fillColor: '.nombreHabitants($row['population']).',weight: 2,opacity: 1,color: "white",dashArray: "3",fillOpacity: 0.7}).addTo(map); ';
+            echo 'var '.$quartier.' = L.polygon('.$row['shape_q'].',{fillColor: '.nombreHabitants($row['population']).',weight: 2,opacity: 1,color: "white",dashArray: "3",fillOpacity: 0.7}).bindPopup("<quartiertitle>'.$row['nom_q'].'</quartiertitle><ul> <li><pop>Population : '.$row['population'].'</pop></li><li><bo>Nombre de bornes wifi : '.$row['liste_b'].'</bo></li></li><br><br></li><li><button>Modifier</button></li></ul>").addTo(map); ';
         }
     }
 ?>
