@@ -81,7 +81,6 @@
         " CREATE TABLE `quartiers` (
           nom_q varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
           population double NOT NULL,
-          code_p int(5) NOT NULL,
           shape_q json DEFAULT NULL,
           liste_b json DEFAULT NULL,
           PRIMARY KEY(`nom_q`)
@@ -129,10 +128,9 @@
 
           $array_to_string = json_encode($array_to_string);
 
-          $insert_query = "INSERT INTO `quartiers`(`nom_q`, `population`, `code_p`, `shape_q` , `liste_b`)
+          $insert_query = "INSERT INTO `quartiers`(`nom_q`, `population`, `shape_q` , `liste_b`)
                            VALUES ('".$row['fields']['libgq']."',
                                    '".$row['fields']['p11_pop']."',
-                                   31000,
                                    '$array_to_string',
                                    NULL)";
 
@@ -177,6 +175,7 @@
             if($pointLocation->pointInPolygon($point, $polygon) == "inside"){
               $point = explode(",",$point);
               $brn_inside_qrt[] = $point[2];
+              mysqli_query($mysqli2, "UPDATE `borneswifi` SET `quartier` = '".$qrt['nom_q']."' WHERE `latitude` = '".$point[0]."' AND `longitude` = '".$point[1]."'");
             }
           }
 
