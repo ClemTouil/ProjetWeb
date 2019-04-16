@@ -8,7 +8,7 @@
         $result = mysqli_query($mysqli,"SELECT quartier, adresse, site, nom_c, dispo, zone, annee_ins FROM borneswifi ");
 
         while ( $row = mysqli_fetch_array($result)) {
-            echo '<tr>','<td>'.$row['quartier'].'</td>', '<td>'.$row['adresse'].'</td>', '<td>'.$row['site'].'</td>','<td>'.$row['nom_c'].'</td>','<td>'.$row['dispo'].'</td>',  '<td>'.$row['zone'].'</td>', '<td>'.$row['annee_ins'].'</td>',  '<td><a class="badge badge-pill badge-dark" href="#">Modifier</a></td>','</tr>';
+            echo '<tr>','<td>'.$row['quartier'].'</td>', '<td>'.$row['adresse'].'</td>', '<td>'.$row['site'].'</td>','<td>'.$row['nom_c'].'</td>','<td>'.$row['dispo'].'</td>',  '<td>'.$row['zone'].'</td>', '<td>'.$row['annee_ins'].'</td>',  '<td><a class="badge badge-pill badge-dark" href="#">Modifier</a><a class="badge badge-pill badge-dark" href="#">Supprimer</a></td>','</tr>';
         }
     }
 ?>						
