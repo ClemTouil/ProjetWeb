@@ -27,7 +27,13 @@
 			$bannis = array(' ','-','\'');//Complète ici tout les mots qui dooivent être remplacé
 			$accepte = array('_','_','_');
 			$quartier = str_replace($bannis, $accepte, $row['nom_q']); // on remplace les espaces par des tirets
-            echo 'var '.$quartier.' = L.polygon('.$row['shape_q'].',{fillColor: '.nombreHabitants($row['population']).',weight: 2,opacity: 1,color: "white",dashArray: "3",fillOpacity: 0.7}).bindPopup("<quartiertitle>'.$row['nom_q'].'</quartiertitle><ul> <li><pop>Population : '.$row['population'].'</pop></li><li><bo>Nombre de bornes wifi :'.$cpt.'</bo></li></li></br></br></li><li><button>Modifier</button></li></ul>").addTo(map); ';
+            echo 'var '.$quartier.' = L.polygon('.$row['shape_q'].',{fillColor: '.nombreHabitants($row['population']).',weight: 2,opacity: 1,color: "white",dashArray: "3",fillOpacity: 0.7}).bindPopup("<center><B><a id=\"quartiername\">'.$row['nom_q'].'</a></B></center>\
+				<U>Population</U> : '.$row['population'].'\
+				<br>\
+				<U>Nombre de bornes</U> : '.$cpt.'\
+				</br></br>\
+				<button class=\"btn-xs btn-dark\" id=\"adlist\" onclick=\"MyFunctionAjoutList()\">Ajouter à la  liste</button>\
+				").addTo(map); ';
         }
     }
 ?>

@@ -60,6 +60,7 @@
 					<a href="#"  id="borne" class="btn btn-dark" >Bornes</a>
 					<a href="#"  id="pop" class="btn btn-dark" >Population</a>
 					<a href="#"  id="borneetpop" class="btn btn-dark" >Bornes/Population</a>
+					<a href="#"  id="reset" class="btn btn-dark" >Vue d'ensemble</a>
 				</div>
 				
 			</div>
@@ -102,22 +103,49 @@
 
       var GeneralChart = new google.visualization.ComboChart(document.getElementById('chart_div'));
 	  
-	    function selectHandler() {
-          var selectedItem = GeneralChart.getSelection()[0];
-          if (selectedItem) {
-            var quartier = data.getValue(selectedItem.row, 0);
-            //var nombreb = data.getValue(selectedItem.row, 2);
-            var nombrepop = data.getValue(selectedItem.row, 1);
-            alert('The user selected ' + nombrepop);
-          }
-        }
+			function selectHandler() {
+				var selectedItem = GeneralChart.getSelection()[0];
+				if (selectedItem) {
+					var quartier = data.getValue(selectedItem.row, 0);
+					quartier = quartier.split(' ').join('_');
+					quartier = quartier.split('\'').join('_');
+					quartier = quartier.split('-').join('_');
+					var zoom = eval(quartier);
+					map.fitBounds(zoom.getBounds());
+					
+				}
+			}
 
       google.visualization.events.addListener(GeneralChart, 'select', selectHandler);
       GeneralChart.draw(data, options);
     }
 	
+	var liste_quartiers_noirs = [];
+	
 	$(document).ready(function(){
     //On button click, load new data
+		$("#reset").click(function(){
+			//remettre les quartiers en couleurs
+			for(var i = 0; i<liste_quartiers_noirs.length; i++){
+				nomqua = eval(liste_quartiers_noirs[i][0]);
+				nombrehab = liste_quartiers_noirs[i][1];
+				if(nombrehab<=5000){
+					nomqua.setStyle({fillColor: 'yellow',weight: 2,opacity: 1,color: "white",dashArray: "3",fillOpacity: 0.7});
+					nomqua.closePopup();
+				}
+				else if(nombrehab<=10000){
+					nomqua.setStyle({fillColor: 'orange',weight: 2,opacity: 1,color: "white",dashArray: "3",fillOpacity: 0.7});
+					nomqua.closePopup();
+				}
+				else{
+					nomqua.setStyle({fillColor: 'red',weight: 2,opacity: 1,color: "white",dashArray: "3",fillOpacity: 0.7});
+					nomqua.closePopup();
+				}
+			}
+			//recentrer la carte
+			map.flyTo([43.600000,1.433333],12);
+		});
+	
 		$("#borne").click(function(){
         
       var data = new google.visualization.DataTable();
@@ -149,8 +177,9 @@
           var selectedItem = BorneChart.getSelection()[0];
           if (selectedItem) {
             var quartier = data.getValue(selectedItem.row, 0);
-            //var nombreb = data.getValue(selectedItem.row, 2);
-            //var nombrepop = data.getValue(selectedItem.row, 1);
+            var nombreb = data.getValue(selectedItem.row, 1);
+			console.log(typeof quartier);
+			console.log(typeof nombreb);
             alert('The user selected ' + quartier);
           }
         }
@@ -195,9 +224,11 @@
 				var selectedItem = GeneralChart.getSelection()[0];
 				if (selectedItem) {
 					var quartier = data.getValue(selectedItem.row, 0);
-					//var nombreb = data.getValue(selectedItem.row, 2);
-					var nombrepop = data.getValue(selectedItem.row, 1);
-					alert('The user selected ' + nombrepop);
+					quartier = quartier.split(' ').join('_');
+					quartier = quartier.split('\'').join('_');
+					quartier = quartier.split('-').join('_');
+					var zoom = eval(quartier);
+					map.fitBounds(zoom.getBounds());	
 				}
 			}
 
@@ -235,9 +266,15 @@
           var selectedItem = PopChart.getSelection()[0];
           if (selectedItem) {
             var quartier = data.getValue(selectedItem.row, 0);
-            //var nombreb = data.getValue(selectedItem.row, 2);
-            //var nombrepop = data.getValue(selectedItem.row, 1);
-            alert('The user selected ' + quartier);
+            var nombreh = data.getValue(selectedItem.row, 1);
+			quartier = quartier.split(' ').join('_');
+			quartier = quartier.split('\'').join('_');
+			quartier = quartier.split('-').join('_');
+			liste_quartiers_noirs.push([quartier,nombreh]);
+			//console.log(liste_quartiers_noirs);
+			var epais = eval(quartier);
+            epais.setStyle({fillColor: 'black',opacity: 0.9,weight: 7});
+			epais.openPopup();
           }
         }
 
@@ -248,12 +285,7 @@
 	
 	});
 	
-	
-	
-	
-	
-	
-	
+
 	//MAP
 		var map = L.map('map',{
 			center: [43.600000,1.433333],
@@ -262,7 +294,7 @@
 
 		L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
 			attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
-			maxZoom: 22,
+			maxZoom: 14,
 			minZoom: 11
 		}).addTo(map);
 
@@ -273,6 +305,8 @@
 		}
 	});
 	
+	
+	
 	//Creer Bornes
 	var wifiIcon = new icon({iconUrl: 'http://pngimg.com/uploads/wifi/wifi_PNG62360.png'});
 	
@@ -281,21 +315,26 @@
 	//Creer Polygone
 	<?php include('PHP/Creation_Polygones_Quartiers.php'); ?>;
 	
-	//Récuperer longitudes latitudes sur le click
-	var popup = L.popup();
+	
+	//Désactive le zoom sur le double Click
+	map.doubleClickZoom.disable();
+		
+	//popup sur un r-clik		
+	function pop(e){
+		var createborne = L.popup();
+			createborne
+				.setLatLng(e.latlng)
+				.setContent("<form method=\"post\" action=\"AjouterBorne.php\"><center><B>Ajouter une borne</B></center></br>Quartier : <input type=\"text\" name=\"quartier\"></br></br>\Nom de la borne : <input type=\"text\" name=\"namebor\"> \<br><br>Année d\'installation : <input type=\"text\" name=\"année\" value=\"2019\" readonly><br><br>Zone d\'émission : <select name=\"emission\"><option value=\"interieur\">intérieur</option> <option value=\"exterieur\">extérieur</option></select> <br><br>Nom de connexion : <input type=\"text\" name=\"nameco\"><br><br>Disponibilité : <select name=\"dispo\"><option value=\"avec\">24h/24h (avec garantie)</option> <option value=\"sans\">24h/24h (sans garantie)</option></select> <br><br>Adresse : <input type=\"text\" name=\"adresse\"><br><br>Commune : <input type=\"text\" name=\"année\" value=\"Toulouse\" readonly><br><br><button class=\"btn-xs btn-dark\" id=\"soumettre\" type=\"submit\" onclick=\"MyFunctionAjout()\">Valider</button></form>")
+				.openOn(map);
 
+		}
 	function onMapClick(e) {
-		popup
-			.setLatLng(e.latlng)
-			.setContent("You clicked the map at " + e.latlng.toString())
-			.openOn(map);
+		pop(e);
 	}
 
-	map.on('click', onMapClick);
+		map.on('contextmenu  ', onMapClick);
 	
 	//Ajouter Légende quartiers 
-
-	   
 	var legend = L.control({position: 'bottomleft'});
        legend.onAdd = function (map) {
 
@@ -317,7 +356,40 @@
        };
 	   //FAIT UN JOLI CARRE
        legend.addTo(map); 
-	   
+	    
+		//FONCTION POUR GERER LES BOUTONS DANS POPUP BORNES
+		function MyFunction1(){	
+			var mod= document.getElementById("modifier");
+			var sauv= document.getElementById("sauvegarder");
+			var anu= document.getElementById("annuler");
+			
+			mod.style.visibility="hidden";
+			sauv.style.visibility="visible";
+			anu.style.visibility="visible";
+				
+			}
+			
+		function MyFunction3(){	
+			var mod= document.getElementById("modifier");
+			var sauv= document.getElementById("sauvegarder");
+			var anu= document.getElementById("annuler");
+			
+			mod.style.visibility="visible";
+			sauv.style.visibility="hidden";
+			anu.style.visibility="hidden";		
+		
+			}
+		
+		//FONCTION AJOUT QUARTIER DANS LISTE POUR CHART
+		function MyFunctionAjout(){
+			
+			}
+			
+			function MyFunctionAjoutList(){ 
+			var v= document.getElementById("quartiername").text;
+			console.log(v);
+			
+			}
 	   
 	</script>
 

@@ -101,7 +101,7 @@
 		L.marker([43.600000, 1.433333], {icon: wifiIcon}).bindPopup("Je suis une borne.").addTo(map);
 
 		
-		var popupborne='<form method="post" action="ModifierPopulation.php">\
+		var popupborne='<form method="post" action="ModifierBorne.php">\
 		<center><B>SAINT-ETIENNE</B></center>\
 				Quartier : test\
 				<br>\
@@ -126,7 +126,7 @@
 
 				
 				
-		var createborne = '<form method="post" action="ModifierPopulation.php">\
+		var createborne = '<form method="post" action="AjouterBorne.php">\
 		<center><B>Ajouter une borne</B></center>\
 				<br>\
 				Quartier : <input type="text" name="quartier"> \
@@ -137,7 +137,7 @@
 				<br>\
 				Année d\'installation : <input type="text" name="année" value=" 2019" readonly><br>\
 				<br>\
-				Zone d\'émission : <select name="emission"><option value="interieur">intérieur</option> <option value="exterieur">extérieur</option> <option value="inter/exter">intérieur/extérieur</option></select> <br>\
+				Zone d\'émission : <select name="emission"><option value="interieur">intérieur</option> <option value="exterieur">extérieur</option></select> <br>\
 				<br>\
 				Nom de connexion : <input type="text" name="nameco"><br>\
 				<br>\

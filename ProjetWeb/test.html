@@ -20,7 +20,16 @@
 	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
 	<!-- <script type="text/javascript" src="javescript.js"></script> -->
 
-	
+		<script>
+		function changer(){
+			var a = document.getElementById('1');
+			var b = document.getElementById('bb');
+			var o = document.getElementById('OH');
+			
+			o.innerHTML="<input placeholder='"+a.innerHTML+"'></input>";
+		
+		}'.$quartier.'.on(\'mouseover\', function (e) {this.openPopup();});'.$quartier.'.on(\'mouseout\', function (e) {this.closePopup();})
+	</script>
 	
 	
 	
@@ -29,18 +38,9 @@
 		<div id="OH"> 
 			<div id="1">Bonjour</div>
 			<div id="bb">Bonsoir</div>
-			<<button onclick="changer()">Valider</button>>
+			<button onclick="changer()">Valider</button>
 		</div>
 		
-	<script>
-		function changer("1","2"){
-			var a = document.getElementById('1');
-			var b = document.getElementById('bb');
-			var o = document.getElementById('OH');
-			
-			o.innerHTML="<input placeholder='"+a.innerHTML+"'></input>";
-		
-		}
-	</script>
+
 </body>
 </html>

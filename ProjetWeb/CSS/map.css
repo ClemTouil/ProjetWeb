@@ -9,6 +9,10 @@
 	margin-left: 2%;
 }
 
+#infolegend{
+	background-color: white;
+}
+
 #chart_div {
 	position: relative;
 	width: 47%;
