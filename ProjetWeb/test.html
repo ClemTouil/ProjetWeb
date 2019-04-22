@@ -27,17 +27,18 @@
 	</head>
 <body id="fond">
 		<div id="OH"> 
-			<div id="aa">Bonjour</div>
+			<div id="1">Bonjour</div>
 			<div id="bb">Bonsoir</div>
 			<<button onclick="changer()">Valider</button>>
 		</div>
+		
 	<script>
-		function changer(){
-			var a = document.getElementById('aa');
+		function changer("1","2"){
+			var a = document.getElementById('1');
 			var b = document.getElementById('bb');
 			var o = document.getElementById('OH');
 			
-			o.innerHTML="<input value='"a.innerHTML"'></input>";
+			o.innerHTML="<input placeholder='"+a.innerHTML+"'></input>";
 		
 		}
 	</script>

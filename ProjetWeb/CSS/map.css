@@ -1,12 +1,28 @@
-html, body {
-	height: 100%;
-	margin: 0;
-}
-#map {			
+
+#map {
+	
 	position: relative;
-	left : 2%;
+	float: left;
 	bottom : -5%;
-	right : 80%;
-	width: 900px;
-	height: 600px;
+	width: 47%;
+	height: 500px;
+	margin-left: 2%;
+}
+
+#chart_div {
+	position: relative;
+	width: 47%;
+	height: 500px;
+	float: right;
+	margin-right: 2%;
+	
+
+}
+
+#HighFiveCrew{
+	display: inline-block;
+	width: 100%;
+	margin-top: 2%;
+	
+	
 }
