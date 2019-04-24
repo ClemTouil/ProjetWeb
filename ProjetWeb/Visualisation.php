@@ -96,47 +96,60 @@
 		 }
       };
 
+	  
+	  
       var GeneralChart = new google.visualization.ComboChart(document.getElementById('chart_div'));
 	  
 			function selectHandler() {
-				var selectedItem = GeneralChart.getSelection()[0];
-				if (selectedItem) {
-					var quartier = data.getValue(selectedItem.row, 0);
-					quartier = quartier.split(' ').join('_');
-					quartier = quartier.split('\'').join('_');
-					quartier = quartier.split('-').join('_');
-					var zoom = eval(quartier);
-					map.fitBounds(zoom.getBounds());
+				try{
+					var selectedItem = GeneralChart.getSelection()[0];
+					if (selectedItem) {
+						var quartier = data.getValue(selectedItem.row, 0);
+						var nombreh = data.getValue(selectedItem.row, 1);
+						quartier = quartier.split(' ').join('_');
+						quartier = quartier.split('\'').join('_');
+						quartier = quartier.split('-').join('_');
+						var zoom = eval(quartier);
+						zoom.setStyle({color: '#666',opacity: 0.9,weight: 7});
+						zoom.openTooltip();
+						liste_quartiers_noirs.push([quartier,nombreh]);
+						map.fitBounds(zoom.getBounds());
 					
-				}
-			}
+					};
+				}catch(err){
+					console.log(err.message);
+				};
+			};
 
       google.visualization.events.addListener(GeneralChart, 'select', selectHandler);
       GeneralChart.draw(data, options);
     }
 	
-	var liste_quartiers_noirs = [];
+
 	
 	$(document).ready(function(){
+		liste_quartiers_noirs = [];
+		console.log(liste_quartiers_noirs);
     //On button click, load new data
 		$("#reset").click(function(){
+
 			//remettre les quartiers en couleurs
 			for(var i = 0; i<liste_quartiers_noirs.length; i++){
 				nomqua = eval(liste_quartiers_noirs[i][0]);
 				nombrehab = liste_quartiers_noirs[i][1];
 				if(nombrehab<=5000){
 					nomqua.setStyle({fillColor: 'yellow',weight: 2,opacity: 1,color: "#666",dashArray: "3",fillOpacity: 0.7});
-					nomqua.closePopup();
 				}
 				else if(nombrehab<=10000){
 					nomqua.setStyle({fillColor: 'orange',weight: 2,opacity: 1,color: "#666",dashArray: "3",fillOpacity: 0.7});
-					nomqua.closePopup();
+	
 				}
 				else{
 					nomqua.setStyle({fillColor: 'red',weight: 2,opacity: 1,color: "#666",dashArray: "3",fillOpacity: 0.7});
-					nomqua.closePopup();
 				}
-			}
+				try{nomqua.closePopup();}catch(err){console.log(err.message)};
+				try{nomqua.closeTooltip();}catch(err){console.log(err.message)};
+			};
 			
 			//remettre toutes les bornes
 			markers.clearLayers();//enleve toutes les bornes
@@ -176,6 +189,7 @@
       var BorneChart = new google.visualization.LineChart(document.getElementById('chart_div'));
 	  
 	    function selectHandler() {
+			try{
           var selectedItem = BorneChart.getSelection()[0];
           if (selectedItem) {
 			markers.clearLayers();//enleve toutes les bornes
@@ -186,21 +200,50 @@
 				data: 'quart='+quartier,
 				success: function(response){
 					eval(response);
-				}
-				
+				}	
 			});	
 			markers.addTo(map);
-			//var quartier_var = quartier.split(' ').join('_');
-			//quartier_var = quartier_var.split('\'').join('_');
-			//quartier_var = eval(quartier_var.split('-').join('_'));
-			//quartier_var.setStyle({weight: 5,opacity: 1,color: "#666",dashArray: " ",fillOpacity: 0.7, riseOnHover: true});
-			//liste_quartiers_noirs.push(quartier_var);
-			//var bornes = eval(quartier);
 
 			}
+			}catch(err){
+				console.log(err.message);
+			}
         }
+	    function onmouseoverHandler(e) {
+			try {
+				var quartier = data.getValue(e.row, 0);
+				markers.clearLayers();//enleve toutes les bornes
+				//var nombreh = data.getValue(e.row, 1);
+				$.ajax({
+					url: 'PHP/Bornes_Dans_Quartier.php',
+					data: 'quart='+quartier,
+					success: function(response){
+						eval(response);
+					}	
+				});	
+				markers.addTo(map);
 
+			}
+			catch(err){
+			  console.log(err.message);
+		  }
+
+        }
+		
+		function onmouseoutHandler(e) {
+			try{
+				markers.clearLayers();//enleve toutes les bornes
+				console.log("salut");
+				<?php include('PHP/Creation_Points_Bornes.php'); ?>
+				markers.addTo(map);
+			}catch(err){
+				console.log(err.message);
+			};
+        };
+	  
       google.visualization.events.addListener(BorneChart, 'select', selectHandler);
+	  google.visualization.events.addListener(BorneChart, 'onmouseover', onmouseoverHandler);
+	  google.visualization.events.addListener(BorneChart, 'onmouseout', onmouseoutHandler);
       BorneChart.draw(data, options);
     
     
@@ -237,16 +280,24 @@
 			var GeneralChart = new google.visualization.ComboChart(document.getElementById('chart_div'));
 	  
 			function selectHandler() {
-				var selectedItem = GeneralChart.getSelection()[0];
-				if (selectedItem) {
-					var quartier = data.getValue(selectedItem.row, 0);
-					quartier = quartier.split(' ').join('_');
-					quartier = quartier.split('\'').join('_');
-					quartier = quartier.split('-').join('_');
-					var zoom = eval(quartier);
-					map.fitBounds(zoom.getBounds());	
-				}
-			}
+				try{
+					var selectedItem = GeneralChart.getSelection()[0];
+					if (selectedItem) {
+						var quartier = data.getValue(selectedItem.row, 0);
+						var nombreh = data.getValue(selectedItem.row, 1);
+						quartier = quartier.split(' ').join('_');
+						quartier = quartier.split('\'').join('_');
+						quartier = quartier.split('-').join('_');
+						var zoom = eval(quartier);
+						zoom.setStyle({color: '#666',opacity: 0.9,weight: 7});
+						zoom.openTooltip();
+						liste_quartiers_noirs.push([quartier,nombreh]);
+						map.fitBounds(zoom.getBounds());	
+					}
+					}catch(err){
+					console.log(err.message);
+					};
+				};
 
 			google.visualization.events.addListener(GeneralChart, 'select', selectHandler);
 			GeneralChart.draw(data, options);
@@ -279,22 +330,64 @@
       var PopChart = new google.visualization.ColumnChart(document.getElementById('chart_div'));
 	  
 	    function selectHandler() {
-          var selectedItem = PopChart.getSelection()[0];
-          if (selectedItem) {
-            var quartier = data.getValue(selectedItem.row, 0);
-            var nombreh = data.getValue(selectedItem.row, 1);
-			quartier = quartier.split(' ').join('_');
-			quartier = quartier.split('\'').join('_');
-			quartier = quartier.split('-').join('_');
-			liste_quartiers_noirs.push([quartier,nombreh]);
-			//console.log(liste_quartiers_noirs);
-			var epais = eval(quartier);
-            epais.setStyle({color: '#666', fillColor: 'white',opacity: 0.9,weight: 7});
-			epais.openPopup();
+			try{
+			var selectedItem = PopChart.getSelection()[0];
+			if (selectedItem) {
+				var quartier = data.getValue(selectedItem.row, 0);
+				var nombreh = data.getValue(selectedItem.row, 1);
+				quartier = quartier.split(' ').join('_');
+				quartier = quartier.split('\'').join('_');
+				quartier = quartier.split('-').join('_');
+				liste_quartiers_noirs.push([quartier,nombreh]);
+				//console.log(liste_quartiers_noirs);
+				var epais = eval(quartier);
+				epais.setStyle({color: '#666', fillColor: 'white',opacity: 0.9,weight: 7});
+				epais.openPopup();
+				MyFunctionAjoutList();
           }
-        }
+			}catch(err){
+				console.log(err.message);
+			};
+		};
+	
+	    function onmouseoverHandler(e) {
+			try {
+				var quartier = data.getValue(e.row, 0);
+				var nombreh = data.getValue(e.row, 1);
+				quartier = quartier.split(' ').join('_');
+				quartier = quartier.split('\'').join('_');
+				quartier = quartier.split('-').join('_');
+				liste_quartiers_noirs.push([quartier,nombreh]);
+				//console.log(liste_quartiers_noirs);
+				var epais = eval(quartier);
+				epais.setStyle({color: '#666',opacity: 0.9,weight: 7});
+				epais.openPopup();
+          }catch(err){
+			  console.log(err.message);
+		  };
+
+        };
+		
+		function onmouseoutHandler(e) {
+			try{
+				var quartier = data.getValue(e.row, 0);
+				var nombreh = data.getValue(e.row, 1);
+				quartier = quartier.split(' ').join('_');
+				quartier = quartier.split('\'').join('_');
+				quartier = quartier.split('-').join('_');
+				liste_quartiers_noirs.push([quartier,nombreh]);
+				//console.log(liste_quartiers_noirs);
+				var epais = eval(quartier);
+				epais.setStyle({color: '#666',opacity: 0.9,weight: 2});
+				epais.closePopup();
+          }catch(err){
+			  console.log(err.message);
+		  };
+        };
 
       google.visualization.events.addListener(PopChart, 'select', selectHandler);
+	  google.visualization.events.addListener(PopChart, 'onmouseover', onmouseoverHandler);
+	  google.visualization.events.addListener(PopChart, 'onmouseout', onmouseoutHandler);
       PopChart.draw(data, options);
 	  
 		});		

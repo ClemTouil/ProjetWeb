@@ -33,7 +33,7 @@
 				<U>Nombre de bornes</U> : '.$cpt.'\
 				</br></br>\
 				<button class=\"btn-xs btn-dark\" id=\"adlist\" onclick=\"MyFunctionAjoutList()\">Ajouter à la  liste</button>\
-				").addTo(map);'.$quartier.'.on(\'mouseover\', function() { '.$quartier.'.setStyle({fillColor: '.nombreHabitants($row['population']).',weight: 5,opacity: 1,color: "#666",dashArray: " ",fillOpacity: 0.7, riseOnHover: true}); });'.$quartier.'.on(\'mouseout\', function() { '.$quartier.'.setStyle({fillColor: '.nombreHabitants($row['population']).',weight: 2,opacity: 1,color: "#666",dashArray: "3",fillOpacity: 0.7})}); ';
+				").bindTooltip("'.$row['nom_q'].'",{permanent: false, direction:"center",interactive: true, opacity: 0.8}).addTo(map);'.$quartier.'.on(\'mouseover\', function() { '.$quartier.'.setStyle({fillColor: '.nombreHabitants($row['population']).',weight: 5,opacity: 1,color: "#666",dashArray: " ",fillOpacity: 0.7, riseOnHover: true}); });'.$quartier.'.on(\'mouseout\', function() { '.$quartier.'.setStyle({fillColor: '.nombreHabitants($row['population']).',weight: 2,opacity: 1,color: "#666",dashArray: "3",fillOpacity: 0.7})}); ';
         }
     }
 ?>

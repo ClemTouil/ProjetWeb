@@ -14,70 +14,143 @@
     <script src="https://unpkg.com/leaflet@1.4.0/dist/leaflet.js"
 		integrity="sha512-QVftwZFqvtRNi0ZyCtsznlKSWOStnDORoefr1enyq5mVL4tmKB3S/EnC3rRJcxCPavG10IcrVGSmPh6Qw5lwrg=="
 		crossorigin=""></script>
-	<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+	<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
 	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
-	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
-	<!-- <script type="text/javascript" src="javescript.js"></script> -->
-
+	<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">	
+	
+	
 		<script>
-		function changer(){
-			var a = document.getElementById('1');
-			var b = document.getElementById('bb');
-			var o = document.getElementById('OH');
-			
-			o.innerHTML="<input placeholder='"+a.innerHTML+"'></input>";
-		
-		}'.$quartier.'.on(\'mouseover\', function (e) {this.openPopup();});'.$quartier.'.on(\'mouseout\', function (e) {this.closePopup();})
-		
-		
-			    function selectHandler() {
-          var selectedItem = BorneChart.getSelection()[0];
-          if (selectedItem) {
-			markers.clearLayers();//enleve toutes les bornes
-			
-            var quartier = data.getValue(selectedItem.row, 0);
-			quartier = quartier.split(' ').join('_');
-			quartier = quartier.split('\'').join('_');
-			quartier = quartier.split('-').join('_');
-			
-			function request(callback) {
+		google.load('visualization', '1');
+google.setOnLoadCallback(drawChart);
 
-				var xhr = getXMLHttpRequest();
+function drawChart() {
+    var data = new google.visualization.DataTable();
+    data.addColumn('string', 'Name');
+    data.addColumn('number', 'Value');
+    data.addRows([
+        ['Foo', 94],
+        ['Bar', 23],
+        ['Baz', 80],
+        ['Bat', 47],
+        ['Cad', 32],
+        ['Qud', 54]
+    ]);
+    
+    var chart = new google.visualization.ChartWrapper({
+        chartType: 'ColumnChart',
+        containerId: 'chart_div',
+        dataTable: data,
+        options: {
+            // setting the "isStacked" option to true fixes the spacing problem
+            isStacked: true,
+            height: 300,
+            width: 600,
+            series: {
+                1: {
+                    // set the color to change to
+                    color: '00A0D0',
+                    // don't show this in the legend
+                    visibleInLegend: false
+                }
+            }
+        }
+    });
+    
+    var runOnce = google.visualization.events.addListener(chart, 'ready', function () {
+        // remove the listener so that it doesn't stack up multiple events
+        google.visualization.events.removeListener(runOnce);
+        
+        // add a mouseover event handler to highlight the bar
+        google.visualization.events.addListener(chart.getChart(), 'onmouseover', function (e) {
+            console.log(e);
+            // set the view to remove the moused over elements from the first series and add them to the second series
+            chart.setView({
+                columns: [0, {
+                    type: 'number',
+                    label: data.getColumnLabel(1),
+                    calc: function (dt, row) {
+                        return (row == e.row) ? null : {v: dt.getValue(row, 1), f: dt.getFormattedValue(row, 1)};
+                        console.log(typeof dt);
+                    }
+                }, {
+                    type: 'number',
+                    label: data.getColumnLabel(1),
+                    calc: function (dt, row) {
+                        return (row == e.row) ? {v: dt.getValue(row, 1), f: dt.getFormattedValue(row, 1)} : null;
+                    }
+                }]
+            });
+            chart.draw();
+        });
+        
+        // add a mouseout event handler to clear highlighting
+        google.visualization.events.addListener(chart.getChart(), 'onmouseout', function () {
+            chart.setView();
+            chart.draw();
+        });
+    });
+    
+    chart.draw();
+}
+		<!-- function changer(){ -->
+			<!-- var a = document.getElementById('1'); -->
+			<!-- var b = document.getElementById('bb'); -->
+			<!-- var o = document.getElementById('OH'); -->
+			
+			<!-- o.innerHTML="<input placeholder='"+a.innerHTML+"'></input>"; -->
+		
+		<!-- }'.$quartier.'.on(\'mouseover\', function (e) {this.openPopup();});'.$quartier.'.on(\'mouseout\', function (e) {this.closePopup();}) -->
+		
+		
+			    <!-- function selectHandler() { -->
+          <!-- var selectedItem = BorneChart.getSelection()[0]; -->
+          <!-- if (selectedItem) { -->
+			<!-- markers.clearLayers();//enleve toutes les bornes -->
+			
+            <!-- var quartier = data.getValue(selectedItem.row, 0); -->
+			<!-- quartier = quartier.split(' ').join('_'); -->
+			<!-- quartier = quartier.split('\'').join('_'); -->
+			<!-- quartier = quartier.split('-').join('_'); -->
+			
+			<!-- function request(callback) { -->
+
+				<!-- var xhr = getXMLHttpRequest(); -->
 	
-				xhr.onreadystatechange = function() {
-				if (xhr.readyState == 4 && (xhr.status == 200 || xhr.status == 0)) {
-					alert(xhr.responseText);
-					callback(xhr.responseText);
-				};
+				<!-- xhr.onreadystatechange = function() { -->
+				<!-- if (xhr.readyState == 4 && (xhr.status == 200 || xhr.status == 0)) { -->
+					<!-- alert(xhr.responseText); -->
+					<!-- callback(xhr.responseText); -->
+				<!-- }; -->
 	
-				xhr.open("GET", "PHP/Bornes_Dans_Quartier.php?quart=" + quartier, true);
-				xhr.send(null);
-				}
-			//var bornes = eval(quartier);
-				}
-				markers.addTo(map);
-			}
-		}
+				<!-- xhr.open("GET", "PHP/Bornes_Dans_Quartier.php?quart=" + quartier, true); -->
+				<!-- xhr.send(null); -->
+				<!-- } -->
+			<!-- //var bornes = eval(quartier); -->
+				<!-- } -->
+				<!-- markers.addTo(map); -->
+			<!-- } -->
+		<!-- } -->
 	</script>
 
-	function request(callback) {
-	var xhr = getXMLHttpRequest();
+	<!-- function request(callback) { -->
+	<!-- var xhr = getXMLHttpRequest(); -->
 	
-	xhr.onreadystatechange = function() {
-		if (xhr.readyState == 4 && (xhr.status == 200 || xhr.status == 0)) {
-			callback(xhr.responseText);
-		}
-	};
+	<!-- xhr.onreadystatechange = function() { -->
+		<!-- if (xhr.readyState == 4 && (xhr.status == 200 || xhr.status == 0)) { -->
+			<!-- callback(xhr.responseText); -->
+		<!-- } -->
+	<!-- }; -->
 
 	
-	xhr.open("GET", "XMLHttpRequest_getString.php?quart=" + quartier, true);
-	xhr.send(null);
-}
+	<!-- xhr.open("GET", "XMLHttpRequest_getString.php?quart=" + quartier, true); -->
+	<!-- xhr.send(null); -->
+<!-- } -->
 
-function readData(sData) {
-	var b = document.getElementById("Pasla").innerHTML=sData;
-}
+<!-- function readData(sData) { -->
+	<!-- var b = document.getElementById("Pasla").innerHTML=sData; -->
+<!-- } -->
 	
 	</head>
 <body id="fond">
