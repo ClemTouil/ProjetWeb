@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 	<head>
-	
+
 	<title>Visualisation</title>
 	<meta charset="utf-8" />
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -18,9 +18,9 @@
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
 	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
 	<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
-	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">	
-	
-	
+	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
+
+
 	</head>
 <body id="fond">
 
@@ -41,7 +41,7 @@
 			<a href="Gestion.php" role="button" class="btn btn-light" >Gestion</a>
 		</div>
 	</header>
-		
+
 	<form>
 	  <input type="text" name="search" placeholder="Search..">
 	</form>
@@ -57,16 +57,16 @@
 					<a href="#"  id="borne" class="btn btn-dark" >Bornes</a>
 					<a href="#"  id="pop" class="btn btn-dark" >Population</a>
 					<a href="#"  id="borneetpop" class="btn btn-dark" >Bornes/Population</a>
-				</div>			
+				</div>
 			</div>
 	</div>
-		
+
 
 	<script>
 	//GRAPHIQUE
 	google.charts.load('current', {packages: ['corechart', 'bar', 'line']});
 	google.charts.setOnLoadCallback(drawGeneralChart);
-	
+
 
 	function drawGeneralChart() {
       var data = new google.visualization.DataTable();
@@ -96,10 +96,10 @@
 		 }
       };
 
-	  
-	  
+
+
       var GeneralChart = new google.visualization.ComboChart(document.getElementById('chart_div'));
-	  
+
 			function selectHandler() {
 				try{
 					var selectedItem = GeneralChart.getSelection()[0];
@@ -114,7 +114,7 @@
 						zoom.openTooltip();
 						liste_quartiers_noirs.push([quartier,nombreh]);
 						map.fitBounds(zoom.getBounds());
-					
+
 					};
 				}catch(err){
 					console.log(err.message);
@@ -124,9 +124,9 @@
       google.visualization.events.addListener(GeneralChart, 'select', selectHandler);
       GeneralChart.draw(data, options);
     }
-	
 
-	
+
+
 	$(document).ready(function(){
 		liste_quartiers_noirs = [];
 		console.log(liste_quartiers_noirs);
@@ -142,7 +142,7 @@
 				}
 				else if(nombrehab<=10000){
 					nomqua.setStyle({fillColor: 'orange',weight: 2,opacity: 1,color: "#666",dashArray: "3",fillOpacity: 0.7});
-	
+
 				}
 				else{
 					nomqua.setStyle({fillColor: 'red',weight: 2,opacity: 1,color: "#666",dashArray: "3",fillOpacity: 0.7});
@@ -150,19 +150,19 @@
 				try{nomqua.closePopup();}catch(err){console.log(err.message)};
 				try{nomqua.closeTooltip();}catch(err){console.log(err.message)};
 			};
-			
+
 			//remettre toutes les bornes
 			markers.clearLayers();//enleve toutes les bornes
 			<?php include('PHP/Creation_Points_Bornes.php'); ?>
 			markers.addTo(map);
-			
-			
+
+
 			//recentrer la carte
 			map.flyTo([43.600000,1.433333],12);
 		});
-	
+
 		$("#borne").click(function(){
-        
+
       var data = new google.visualization.DataTable();
       data.addColumn('string', 'Quartiers');
       data.addColumn('number', 'Nombre Bornes');
@@ -187,21 +187,21 @@
       };
 
       var BorneChart = new google.visualization.LineChart(document.getElementById('chart_div'));
-	  
+
 	    function selectHandler() {
 			try{
           var selectedItem = BorneChart.getSelection()[0];
           if (selectedItem) {
 			markers.clearLayers();//enleve toutes les bornes
-			
+
             var quartier = data.getValue(selectedItem.row, 0);
 			$.ajax({
 				url: 'PHP/Bornes_Dans_Quartier.php',
 				data: 'quart='+quartier,
 				success: function(response){
 					eval(response);
-				}	
-			});	
+				}
+			});
 			markers.addTo(map);
 
 			}
@@ -219,8 +219,8 @@
 					data: 'quart='+quartier,
 					success: function(response){
 						eval(response);
-					}	
-				});	
+					}
+				});
 				markers.addTo(map);
 
 			}
@@ -229,7 +229,7 @@
 		  }
 
         }
-		
+
 		function onmouseoutHandler(e) {
 			try{
 				markers.clearLayers();//enleve toutes les bornes
@@ -240,15 +240,15 @@
 				console.log(err.message);
 			};
         };
-	  
+
       google.visualization.events.addListener(BorneChart, 'select', selectHandler);
 	  google.visualization.events.addListener(BorneChart, 'onmouseover', onmouseoverHandler);
 	  google.visualization.events.addListener(BorneChart, 'onmouseout', onmouseoutHandler);
       BorneChart.draw(data, options);
-    
-    
+
+
 		});
-		
+
 		$("#borneetpop").click(function(){
 			var data = new google.visualization.DataTable();
 			data.addColumn('string', 'Quartiers');
@@ -278,7 +278,7 @@
 			};
 
 			var GeneralChart = new google.visualization.ComboChart(document.getElementById('chart_div'));
-	  
+
 			function selectHandler() {
 				try{
 					var selectedItem = GeneralChart.getSelection()[0];
@@ -292,7 +292,7 @@
 						zoom.setStyle({color: '#666',opacity: 0.9,weight: 7});
 						zoom.openTooltip();
 						liste_quartiers_noirs.push([quartier,nombreh]);
-						map.fitBounds(zoom.getBounds());	
+						map.fitBounds(zoom.getBounds());
 					}
 					}catch(err){
 					console.log(err.message);
@@ -301,7 +301,7 @@
 
 			google.visualization.events.addListener(GeneralChart, 'select', selectHandler);
 			GeneralChart.draw(data, options);
-	  
+
 		});
 
 		$("#pop").click(function(){
@@ -328,7 +328,7 @@
       };
 
       var PopChart = new google.visualization.ColumnChart(document.getElementById('chart_div'));
-	  
+
 	    function selectHandler() {
 			try{
 			var selectedItem = PopChart.getSelection()[0];
@@ -349,7 +349,7 @@
 				console.log(err.message);
 			};
 		};
-	
+
 	    function onmouseoverHandler(e) {
 			try {
 				var quartier = data.getValue(e.row, 0);
@@ -367,7 +367,7 @@
 		  };
 
         };
-		
+
 		function onmouseoutHandler(e) {
 			try{
 				var quartier = data.getValue(e.row, 0);
@@ -389,11 +389,11 @@
 	  google.visualization.events.addListener(PopChart, 'onmouseover', onmouseoverHandler);
 	  google.visualization.events.addListener(PopChart, 'onmouseout', onmouseoutHandler);
       PopChart.draw(data, options);
-	  
-		});		
-	
+
+		});
+
 	});
-	
+
 
 	//MAP
 		var map = L.map('map',{
@@ -409,27 +409,27 @@
 
 		//Génerer Icones
 		var icon = L.Icon.extend({
-			options: {	
+			options: {
 			iconSize:     [15, 15]
 		}
 	});
-	
-	
-	
+
+
+
 	//Creer Bornes
 	var wifiIcon = new icon({iconUrl: 'http://pngimg.com/uploads/wifi/wifi_PNG62360.png'});
 	var markers = L.layerGroup();
 	<?php include('PHP/Creation_Points_Bornes.php'); ?>
 	markers.addTo(map);
-	
+
 	//Creer Polygone
 	<?php include('PHP/Creation_Polygones_Quartiers.php'); ?>;
-	
-	
+
+
 	//Désactive le zoom sur le double Click
 	map.doubleClickZoom.disable();
-		
-	//popup sur un r-clik		
+
+	//popup sur un r-clik
 	function pop(e){
 		var createborne = L.popup();
 			createborne
@@ -443,10 +443,10 @@
 	}
 
 		map.on('contextmenu  ', onMapClick);
-		
-	
-	
-	//Ajouter Légende quartiers 
+
+
+
+	//Ajouter Légende quartiers
 	var legend = L.control({position: 'bottomleft'});
        legend.onAdd = function (map) {
 
@@ -457,7 +457,7 @@
 
        for (var i = 0; i < categories.length; i++) {
 
-               div.innerHTML += 
+               div.innerHTML +=
                labels.push(
                    '<i style="background:' + couleurs[i] + '">       </i> ' +
                (categories[i] ? categories[i] : '+'));
@@ -466,47 +466,47 @@
            div.innerHTML = labels.join('<br>');
        return div;
        };
-       legend.addTo(map); 
-	    
+       legend.addTo(map);
+
 		//FONCTION POUR GERER LES BOUTONS DANS POPUP BORNES
-		function Modifier(){	
+		function Modifier(){
 			var mod= document.getElementById("modifier");
 			var sauv= document.getElementById("sauvegarder");
 			var anu= document.getElementById("annuler");
-			
+
 			mod.style.visibility="hidden";
 			sauv.style.visibility="visible";
 			anu.style.visibility="visible";
-			
+
 			var dispo = document.getElementById("dispo");
 			dispo.innerHTML="<input placeholder='"+dispo.innerHTML+"'></input>";
-				
+
 			}
-			
-		function Annuler(){	
+
+		function Annuler(){
 			var mod= document.getElementById("modifier");
 			var sauv= document.getElementById("sauvegarder");
 			var anu= document.getElementById("annuler");
-			
+
 			mod.style.visibility="visible";
 			sauv.style.visibility="hidden";
-			anu.style.visibility="hidden";		
-		
+			anu.style.visibility="hidden";
+
 			}
-		
+
 		//FONCTION AJOUT QUARTIER DANS LISTE POUR CHART
 		function MyFunctionAjout(){
-			
+
 			}
-			
-			function MyFunctionAjoutList(){ 
+
+			function MyFunctionAjoutList(){
 				var newQuartier= document.getElementById("quartiername").text;
 				document.getElementById("listeQuartiers").append("<li>"+newQuartier+"<i class=\"fas fa-times\"></i></li>");
-			
-			}
-	   
-	</script>
 
+			}
+
+	</script>
+	<script type="text/javascript" src="JS/ajaxGraph.js"></script>
 
 
 </body>
