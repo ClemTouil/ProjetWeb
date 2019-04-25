@@ -479,7 +479,8 @@
 			anu.style.visibility="visible";
 
 			var dispo = document.getElementById("dispo");
-			dispo.innerHTML="<input placeholder='"+dispo.innerHTML+"'></input>";
+			var text = document.getElementById("dispo").innerHTML;
+			dispo.innerHTML="<input type=\"text\" id=\"dispo_brn\" value='"+text+"'></input>";
 
 			}
 
@@ -487,6 +488,9 @@
 			var mod= document.getElementById("modifier");
 			var sauv= document.getElementById("sauvegarder");
 			var anu= document.getElementById("annuler");
+			var dispo = document.getElementById("dispo");
+			var text = document.getElementById("dispo_brn").value;
+			dispo.innerHTML=text;
 
 			mod.style.visibility="visible";
 			sauv.style.visibility="hidden";
@@ -507,6 +511,7 @@
 
 	</script>
 	<script type="text/javascript" src="JS/ajaxGraph.js"></script>
+	<script type="text/javascript" src="JS/ajaxModifBorne.js"></script>
 
 
 </body>
