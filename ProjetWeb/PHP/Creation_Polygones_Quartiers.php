@@ -17,7 +17,7 @@
         printf("Échec de la connexion : %s\n", $mysqli->connect_error);
         exit();
     }else { // Si la connexion se passe bien alors :
-
+		$numero_ligne = 0;
         $result = mysqli_query($mysqli,"SELECT nom_q, shape_q, population, liste_b FROM quartiers ");
         while ( $row = mysqli_fetch_array($result)) {
 			//Generer la variable avec nom du quartier 
@@ -33,7 +33,8 @@
 				<U>Nombre de bornes</U> : '.$cpt.'\
 				</br></br>\
 				<button class=\"btn-xs btn-dark\" id=\"adlist\" onclick=\"MyFunctionAjoutList()\">Ajouter à la  liste</button>\
-				").bindTooltip("'.$row['nom_q'].'",{permanent: false, direction:"center",interactive: true, opacity: 0.8}).addTo(map);'.$quartier.'.on(\'mouseover\', function() { '.$quartier.'.setStyle({fillColor: '.nombreHabitants($row['population']).',weight: 5,opacity: 1,color: "#666",dashArray: " ",fillOpacity: 0.7, riseOnHover: true}); });'.$quartier.'.on(\'mouseout\', function() { '.$quartier.'.setStyle({fillColor: '.nombreHabitants($row['population']).',weight: 2,opacity: 1,color: "#666",dashArray: "3",fillOpacity: 0.7})}); ';
+				").bindTooltip("'.$row['nom_q'].'<div id=\"numero_ligne\" style=\"display: none\">'.$numero_ligne.'</div>",{permanent: false, direction:"center",interactive: true, opacity: 0.8}).addTo(map);'.$quartier.'.on(\'mouseover\', function() { '.$quartier.'.setStyle({fillColor: '.nombreHabitants($row['population']).',weight: 5,opacity: 1,color: "#666",dashArray: " ",fillOpacity: 0.7, riseOnHover: true});var num = document.getElementById("numero_ligne").innerHTML;GeneralChart.setSelection([{ row: num, column: 1 }]);PopChart.setSelection([{ row: num, column: 1 }]);BorneChart.setSelection([{ row: num, column: 1 }]); });'.$quartier.'.on(\'mouseout\', function() { '.$quartier.'.setStyle({fillColor: '.nombreHabitants($row['population']).',weight: 2,opacity: 1,color: "#666",dashArray: "3",fillOpacity: 0.7})}); ';
+				$numero_ligne = $numero_ligne + 1;
         }
     }
 ?>

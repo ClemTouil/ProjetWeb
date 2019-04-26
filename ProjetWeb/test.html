@@ -22,78 +22,55 @@
 	
 	
 		<script>
-		google.load('visualization', '1');
-google.setOnLoadCallback(drawChart);
+google.load('visualization', '1', {packages: ['corechart', 'bar']});
+google.setOnLoadCallback(drawGraph);
 
-function drawChart() {
-    var data = new google.visualization.DataTable();
-    data.addColumn('string', 'Name');
-    data.addColumn('number', 'Value');
-    data.addRows([
-        ['Foo', 94],
-        ['Bar', 23],
-        ['Baz', 80],
-        ['Bat', 47],
-        ['Cad', 32],
-        ['Qud', 54]
-    ]);
+function drawGraph() {
+      var data1 = google.visualization.arrayToDataTable([
+        ['Genre', 'Fantasy & Sci Fi', 'Romance', 'Mystery/Crime', 'General',
+         'Western', 'Literature', { role: 'annotation' } ],
+        ['2010', 10, 24, 20, 32, 18, 5, ''],
+        ['2020', 16, 22, 23, 30, 16, 9, ''],
+        ['2030', 28, 19, 29, 30, 12, 13, '']
+      ]);
+
+      var options1 = {
+        width: 600,
+        height: 400,
+        legend: { position: 'none' },
+        bar: { groupWidth: '75%' },
+        isStacked: true,
+        //
+        tooltip : { trigger : 'selection' }
+      };
     
-    var chart = new google.visualization.ChartWrapper({
-        chartType: 'ColumnChart',
-        containerId: 'chart_div',
-        dataTable: data,
-        options: {
-            // setting the "isStacked" option to true fixes the spacing problem
-            isStacked: true,
-            height: 300,
-            width: 600,
-            series: {
-                1: {
-                    // set the color to change to
-                    color: '00A0D0',
-                    // don't show this in the legend
-                    visibleInLegend: false
-                }
-            }
-        }
-    });
+      var data2 = google.visualization.arrayToDataTable([
+          ['Genre', 'Count'],
+          ['Fantasy & Sci Fi', 28],
+          ['Romance', 19],
+          ['Mystery/Crime', 29],
+          ['General', 30],
+          ['Western', 12],
+          ['Literature', 13]
+        ]);
+
+        var options2 = {
+          title: 'Genres in 2030'
+        };
+
+      var chart1 = new google.visualization.ColumnChart(document.getElementById('chart1_div'));
+      var chart2 = new google.visualization.PieChart(document.getElementById('chart2_div'));
+      chart1.draw(data1, options1);
+      chart2.draw(data2, options2);
+
+      google.visualization.events.addListener(chart2, 'onmouseover', function(selection) {
+          chart2.setSelection(selection);
+          console.log(selection);
+          chart1.setSelection([{ row: 2, column: selection.row+1 }]);
+      })
+    }
+	var num = document.getElementById("gerer_bugs");if(num.innerHTML == "1"){PopChart.setSelection([{ row: num, column: 1 }]);BorneChart.setSelection([{ row: num, column: 1 }]);}else{BorneChart.setSelection([{ row: num, column: 1 }]);PopChart.setSelection([{ row: num, column: 1 }]);};
     
-    var runOnce = google.visualization.events.addListener(chart, 'ready', function () {
-        // remove the listener so that it doesn't stack up multiple events
-        google.visualization.events.removeListener(runOnce);
-        
-        // add a mouseover event handler to highlight the bar
-        google.visualization.events.addListener(chart.getChart(), 'onmouseover', function (e) {
-            console.log(e);
-            // set the view to remove the moused over elements from the first series and add them to the second series
-            chart.setView({
-                columns: [0, {
-                    type: 'number',
-                    label: data.getColumnLabel(1),
-                    calc: function (dt, row) {
-                        return (row == e.row) ? null : {v: dt.getValue(row, 1), f: dt.getFormattedValue(row, 1)};
-                        console.log(typeof dt);
-                    }
-                }, {
-                    type: 'number',
-                    label: data.getColumnLabel(1),
-                    calc: function (dt, row) {
-                        return (row == e.row) ? {v: dt.getValue(row, 1), f: dt.getFormattedValue(row, 1)} : null;
-                    }
-                }]
-            });
-            chart.draw();
-        });
-        
-        // add a mouseout event handler to clear highlighting
-        google.visualization.events.addListener(chart.getChart(), 'onmouseout', function () {
-            chart.setView();
-            chart.draw();
-        });
-    });
-    
-    chart.draw();
-}
 		<!-- function changer(){ -->
 			<!-- var a = document.getElementById('1'); -->
 			<!-- var b = document.getElementById('bb'); -->
@@ -159,6 +136,10 @@ function drawChart() {
 			<div id="bb">Bonsoir</div>
 			<button onclick="changer()">Valider</button>
 		</div>
+		var num = document.getElementById("numero_ligne").innerHTML;if(num!=null){GeneralChart.setSelection([{ row: num, column: 1 }]);}else{};
+		  <div id="chart1_div"></div>
+		<div id="chart2_div"></div>
+		var num = document.getElementById(\"numero_ligne\"); GeneralChart.setSelection([{ row: num.text, column: 1}]);style=\"display: none\"
 		
 
 </body>
