@@ -12,9 +12,9 @@
     exit();
   }else { // Si la connexion se passe bien alors :
 
-    if(mysqli_query($mysqli,"UPDATE borneswifi SET dispo = '".$_POST['dispo']."' WHERE adresse = '".$_POST['adresse']."'")){
+    if(mysqli_query($mysqli,"UPDATE borneswifi SET dispo = '".$_POST['dispo']."', nom_c = '".$_POST['nomC']."' WHERE site = '".$_POST['nom']."'")){
       echo "success";
-    };
+    }
   }
   mysqli_close($mysqli);
 ?>

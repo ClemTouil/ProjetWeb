@@ -25,12 +25,17 @@
 <body id="fond">
 
 <?php
+
     define('HOSTNAME','localhost');
     define('DB_USERNAME','root');
     define('DB_PASSWORD','');
     define('DB_NAME','projet_web');
 
-    $mysqli = new mysqli(HOSTNAME, DB_USERNAME, DB_PASSWORD, DB_NAME); ?>
+    $mysqli = new mysqli(HOSTNAME, DB_USERNAME, DB_PASSWORD, DB_NAME);
+
+		include('PHP/refreshDataBase.php');
+
+	?>
 
 	<header id="entete">
 		</br>
@@ -52,12 +57,12 @@
 			<div id='map'></div>
 			<div>
 				<div id="listeQuartiers"></div>
-				
+
 				<div id="chart_divB"  class="chart" ></div>
 				<div id="chart_divG"  class="chart" ></div>
 				<div id="chart_divP" class="chart" ></div>
-				
-				
+
+
 				<div id="graphe_menu">
 					<a href="#"  id="borne" class="btn btn-dark" >Bornes</a>
 					<a href="#"  id="pop" class="btn btn-dark" >Population</a>
@@ -90,7 +95,7 @@
         series: {
           0: {axis: 'a', targetAxisIndex: 0},
           1: {axis: 'b', targetAxisIndex: 1, type: 'line'}
-        },	
+        },
         hAxis: {
           title: 'Quartiers',
 		  textPosition: 'none',
@@ -103,7 +108,7 @@
       };
 
       GeneralChart = new google.visualization.ComboChart(document.getElementById('chart_divG'));
-	  
+
 			function selectHandlerG() {
 				try{
 					var selectedItem = GeneralChart.getSelection()[0];
@@ -125,7 +130,7 @@
 					console.log(err.message);
 				};
 			};
-			
+
 			function onmouseoverHandlerG(e) {
 				try {
 					GeneralChart.setSelection([]);
@@ -143,7 +148,7 @@
 				};
 
 			};
-			
+
 			function onmouseoutHandlerG(e) {
 				try{
 					var quartier = dataG.getValue(e.row, 0);
@@ -164,8 +169,8 @@
 	  google.visualization.events.addListener(GeneralChart, 'onmouseover', onmouseoverHandlerG);
 	  google.visualization.events.addListener(GeneralChart, 'onmouseout', onmouseoutHandlerG);
       GeneralChart.draw(dataG, options);
-	  
-	  
+
+
 	//BORNE CHART
       var dataB = new google.visualization.DataTable();
       dataB.addColumn('string', 'Quartiers');
@@ -190,9 +195,9 @@
 		 },
 		 tooltip : { trigger : 'both' }
       };
-	  
+
       BorneChart = new google.visualization.LineChart(document.getElementById('chart_divB'));
-	  
+
 	    function selectHandlerB() {
 			try{
           var selectedItem = BorneChart.getSelection()[0];
@@ -210,7 +215,7 @@
 			var var_quartier = quartier.split(' ').join('_');
 			var_quartier = var_quartier.split('\'').join('_');
 			var_quartier = var_quartier.split('-').join('_');
-			var zoom = eval(var_quartier); 
+			var zoom = eval(var_quartier);
 			zoom.setStyle({color: '#666',opacity: 0.9,weight: 7});
 			zoom.openTooltip();
 			//liste_quartiers_noirs.push([quartier,nombreh]);
@@ -242,18 +247,18 @@
 		  }
 
         }
-	
+
 	  var containerB = document.getElementById('chart_divB');
 	  containerB.style.display = 'block';
-	  
+
 	  google.visualization.events.addListener(BorneChart, 'ready', function () { containerB.style.display = 'none';});
       google.visualization.events.addListener(BorneChart, 'select', selectHandlerB);
 	  google.visualization.events.addListener(BorneChart, 'onmouseover', onmouseoverHandlerB);
 	  //google.visualization.events.addListener(BorneChart, 'onmouseout', onmouseoutHandler);
-      BorneChart.draw(dataB, options);	  
-	  
+      BorneChart.draw(dataB, options);
+
 	  //POPULATION CHART
-	
+
 			var dataP = new google.visualization.DataTable();
 			dataP.addColumn('string', 'Quartiers');
 			dataP.addColumn('number', 'Nombre Habitants');
@@ -276,9 +281,9 @@
 		 },
 		 tooltip : { trigger : 'both' }
       };
-	  
+
       PopChart = new google.visualization.ColumnChart(document.getElementById('chart_divP'));
-	  
+
 	    function selectHandlerP() {
 			try{
 			var selectedItem = PopChart.getSelection()[0];
@@ -298,7 +303,7 @@
 				console.log(err.message);
 			};
 		};
-	
+
 	    function onmouseoverHandlerP(e) {
 			try {
 				PopChart.setSelection([]);
@@ -316,7 +321,7 @@
 		  };
 
         };
-		
+
 		function onmouseoutHandlerP(e) {
 			try{
 				var quartier = dataP.getValue(e.row, 0);
@@ -335,15 +340,15 @@
 
 	  var containerP = document.getElementById('chart_divP');
 	  containerP.style.display = 'block';
-	  
+
 	  google.visualization.events.addListener(PopChart, 'ready', function () { containerP.style.display = 'none';});
       google.visualization.events.addListener(PopChart, 'select', selectHandlerP);
 	  google.visualization.events.addListener(PopChart, 'onmouseover', onmouseoverHandlerP);
 	  google.visualization.events.addListener(PopChart, 'onmouseout', onmouseoutHandlerP);
-      PopChart.draw(dataP, options);	  
+      PopChart.draw(dataP, options);
     };
-	
-	
+
+
 	$(document).ready(function(){
 		liste_quartiers_noirs = [];
 		//console.log(liste_quartiers_noirs);
@@ -359,7 +364,7 @@
 				}
 				else if(nombrehab<=10000){
 					nomqua.setStyle({fillColor: 'orange',weight: 2,opacity: 1,color: "#666",dashArray: "3",fillOpacity: 0.7});
-	
+
 				}
 				else{
 					nomqua.setStyle({fillColor: 'red',weight: 2,opacity: 1,color: "#666",dashArray: "3",fillOpacity: 0.7});
@@ -367,17 +372,17 @@
 				try{nomqua.closePopup();}catch(err){console.log(err.message)};
 				try{nomqua.closeTooltip();}catch(err){console.log(err.message)};
 			};
-			
+
 			//remettre toutes les bornes
 			markers.clearLayers();//enleve toutes les bornes
 			<?php include('PHP/Creation_Points_Bornes.php'); ?>
 			markers.addTo(map);
-			
-			
+
+
 			//recentrer la carte
 			map.flyTo([43.600000,1.433333],12);
 		});
-	
+
 		$("#borne").click(function(){
 			var borne = document.getElementById("chart_divB");
 			var pop = document.getElementById("chart_divP");
@@ -385,19 +390,19 @@
 			gen.style.display = "none";
 			pop.style.display = "none";
 			borne.style.display = "inline";
-    
+
 		});
-		
+
 		$("#borneetpop").click(function(){
-			
+
 			var borne = document.getElementById("chart_divB");
 			var pop = document.getElementById("chart_divP");
 			var gen = document.getElementById("chart_divG");
 			gen.style.display = "inline";
 			pop.style.display = "none";
 			borne.style.display = "none";
-		
-	  
+
+
 		});
 
 		$("#pop").click(function(){
@@ -408,8 +413,8 @@
 			gen.style.display = "none";
 			pop.style.display = "inline";
 			borne.style.display = "none";
-		});		
-	
+		});
+
 	});
 
 
@@ -447,10 +452,12 @@
 
 	//popup sur un r-clik
 	function pop(e){
+		var lat = e.latlng.lat;
+		var long = e.latlng.lng;
 		var createborne = L.popup();
 			createborne
 				.setLatLng(e.latlng)
-				.setContent("<form method=\"post\" action=\"AjouterBorne.php\"><center><B>Ajouter une borne</B></center></br>Quartier : <input type=\"text\" name=\"quartier\"></br></br>\Nom de la borne : <input type=\"text\" name=\"namebor\"> \<br><br>Année d\'installation : <input type=\"text\" name=\"année\" value=\"2019\" readonly><br><br>Zone d\'émission : <select name=\"emission\"><option value=\"interieur\">intérieur</option> <option value=\"exterieur\">extérieur</option></select> <br><br>Nom de connexion : <input type=\"text\" name=\"nameco\"><br><br>Disponibilité : <select name=\"dispo\"><option value=\"avec\">24h/24h (avec garantie)</option> <option value=\"sans\">24h/24h (sans garantie)</option></select> <br><br>Adresse : <input type=\"text\" name=\"adresse\"><br><br>Commune : <input type=\"text\" name=\"année\" value=\"Toulouse\" readonly><br><br><button class=\"btn-xs btn-dark\" id=\"soumettre\" type=\"submit\" onclick=\"MyFunctionAjout()\">Valider</button></form>")
+				.setContent("<form id=\"ajoutBorne\" method=\"post\"><center><B>Ajouter une borne</B></center></br>Latitude : <input type=\"text\" name=\"lat\" value=\""+lat+"\"></br></br>Longitude : <input type=\"text\" name=\"long\" value=\""+long+"\"></br><input type=\"hidden\" name=\"quartier\"></br>Nom de la borne : <input type=\"text\" name=\"namebor\"> \<br><br>Année d\'installation : <input type=\"text\" name=\"annee\" value=\"2019\" readonly><br><br>Zone d\'émission : <select name=\"emission\"><option value=\"interieur\">intérieur</option> <option value=\"exterieur\">extérieur</option></select> <br><br>Nom de connexion : <input type=\"text\" name=\"nameco\"><br><br>Disponibilité : <select name=\"dispo\"><option value=\"24h/24h (avec garantie)\">24h/24h (avec garantie)</option> <option value=\"24h/24h (sans garantie)\">24h/24h (sans garantie)</option></select> <br><br>Adresse : <input type=\"text\" name=\"adresse\"><br><br><button class=\"btn-xs btn-dark\" id=\"soumettre\" type=\"button\">Valider</button></form>")
 				.openOn(map);
 
 		}
@@ -497,6 +504,10 @@
 			var text = document.getElementById("dispo").innerHTML;
 			dispo.innerHTML="<input type=\"text\" id=\"dispo_brn\" value='"+text+"'></input>";
 
+			var nomC = document.getElementById("nomC");
+			var text2 = document.getElementById("nomC").innerHTML;
+			nomC.innerHTML="<input type=\"text\" id=\"nom_c\" value='"+text2+"'></input>";
+
 			}
 
 		function Annuler(){
@@ -504,8 +515,12 @@
 			var sauv= document.getElementById("sauvegarder");
 			var anu= document.getElementById("annuler");
 			var dispo = document.getElementById("dispo");
+			var nomC = document.getElementById("nomC");
 			var text = document.getElementById("dispo_brn").value;
+			var text2 = document.getElementById("nomC").value;
 			dispo.innerHTML=text;
+			nomC.innerHTML=text2;
+
 
 			mod.style.visibility="visible";
 			sauv.style.visibility="hidden";
@@ -517,19 +532,20 @@
 		function MyFunctionAjout(){
 
 			}
-			
-		function MyFunctionAjoutList(){ 
-		
+
+		function MyFunctionAjoutList(){
+
 			var newQuartier= document.getElementById("quartiername").text;
 			document.getElementById("listeQuartiers").append("<li>"+newQuartier+"<i class=\"fas fa-times\"></i></li>");
-	
+
 			};
-			
+
 	</script>
 
 	</script>
 	<script type="text/javascript" src="JS/ajaxGraph.js"></script>
 	<script type="text/javascript" src="JS/ajaxModifBorne.js"></script>
+	<script type="text/javascript" src="JS/ajaxAjoutBorne.js"></script>
 
 
 </body>
