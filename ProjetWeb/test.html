@@ -20,7 +20,7 @@
 	<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">	
 	
-	
+	<a href="#"  id="loadgraph" class="btn btn-dark" style="display: none" >Génerer Graphique</a>
 		<script>
 google.load('visualization', '1', {packages: ['corechart', 'bar']});
 google.setOnLoadCallback(drawGraph);
@@ -70,76 +70,14 @@ function drawGraph() {
       })
     }
 	var num = document.getElementById("gerer_bugs");if(num.innerHTML == "1"){PopChart.setSelection([{ row: num, column: 1 }]);BorneChart.setSelection([{ row: num, column: 1 }]);}else{BorneChart.setSelection([{ row: num, column: 1 }]);PopChart.setSelection([{ row: num, column: 1 }]);};
-    
-		<!-- function changer(){ -->
-			<!-- var a = document.getElementById('1'); -->
-			<!-- var b = document.getElementById('bb'); -->
-			<!-- var o = document.getElementById('OH'); -->
-			
-			<!-- o.innerHTML="<input placeholder='"+a.innerHTML+"'></input>"; -->
-		
-		<!-- }'.$quartier.'.on(\'mouseover\', function (e) {this.openPopup();});'.$quartier.'.on(\'mouseout\', function (e) {this.closePopup();}) -->
-		
-		
-			    <!-- function selectHandler() { -->
-          <!-- var selectedItem = BorneChart.getSelection()[0]; -->
-          <!-- if (selectedItem) { -->
-			<!-- markers.clearLayers();//enleve toutes les bornes -->
-			
-            <!-- var quartier = data.getValue(selectedItem.row, 0); -->
-			<!-- quartier = quartier.split(' ').join('_'); -->
-			<!-- quartier = quartier.split('\'').join('_'); -->
-			<!-- quartier = quartier.split('-').join('_'); -->
-			
-			<!-- function request(callback) { -->
 
-				<!-- var xhr = getXMLHttpRequest(); -->
-	
-				<!-- xhr.onreadystatechange = function() { -->
-				<!-- if (xhr.readyState == 4 && (xhr.status == 200 || xhr.status == 0)) { -->
-					<!-- alert(xhr.responseText); -->
-					<!-- callback(xhr.responseText); -->
-				<!-- }; -->
-	
-				<!-- xhr.open("GET", "PHP/Bornes_Dans_Quartier.php?quart=" + quartier, true); -->
-				<!-- xhr.send(null); -->
-				<!-- } -->
-			<!-- //var bornes = eval(quartier); -->
-				<!-- } -->
-				<!-- markers.addTo(map); -->
-			<!-- } -->
-		<!-- } -->
-	</script>
 
-	<!-- function request(callback) { -->
-	<!-- var xhr = getXMLHttpRequest(); -->
-	
-	<!-- xhr.onreadystatechange = function() { -->
-		<!-- if (xhr.readyState == 4 && (xhr.status == 200 || xhr.status == 0)) { -->
-			<!-- callback(xhr.responseText); -->
-		<!-- } -->
-	<!-- }; -->
-
-	
-	<!-- xhr.open("GET", "XMLHttpRequest_getString.php?quart=" + quartier, true); -->
-	<!-- xhr.send(null); -->
-<!-- } -->
-
-<!-- function readData(sData) { -->
-	<!-- var b = document.getElementById("Pasla").innerHTML=sData; -->
-<!-- } -->
-	
 	</head>
 <body id="fond">
-		<div id="OH"> 
-			<div id="1">Bonjour</div>
-			<div id="bb">Bonsoir</div>
-			<button onclick="changer()">Valider</button>
-		</div>
-		var num = document.getElementById("numero_ligne").innerHTML;if(num!=null){GeneralChart.setSelection([{ row: num, column: 1 }]);}else{};
-		  <div id="chart1_div"></div>
-		<div id="chart2_div"></div>
-		var num = document.getElementById(\"numero_ligne\"); GeneralChart.setSelection([{ row: num.text, column: 1}]);style=\"display: none\"
+<div style="width:75%;">
+  <canvas id="chart"></canvas>
+</div>
+
 		
 
 </body>

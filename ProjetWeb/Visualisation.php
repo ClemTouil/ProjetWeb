@@ -56,13 +56,19 @@
 	<div id="HighFiveCrew">
 			<div id='map'></div>
 			<div>
-				<div id="listeQuartiers"></div>
+				<ul id="listeQuartiers" style="display: none">
 
+				</ul>
+				<br class="br">
+				<a href="#"  id="loadgraph" class="btn btn-dark" style="display: none" >Génerer Graphique</a>
+				<br class="br">
+				<br class="br">
+				
 				<div id="chart_divB"  class="chart" ></div>
 				<div id="chart_divG"  class="chart" ></div>
 				<div id="chart_divP" class="chart" ></div>
-
-
+				<div id="chart_divL" class="chart" ></div>
+				
 				<div id="graphe_menu">
 					<a href="#"  id="borne" class="btn btn-dark" >Bornes</a>
 					<a href="#"  id="pop" class="btn btn-dark" >Population</a>
@@ -387,10 +393,11 @@
 			var borne = document.getElementById("chart_divB");
 			var pop = document.getElementById("chart_divP");
 			var gen = document.getElementById("chart_divG");
+			var perso = document.getElementById("chart_divL");
 			gen.style.display = "none";
 			pop.style.display = "none";
 			borne.style.display = "inline";
-
+			perso.style.display = "none";
 		});
 
 		$("#borneetpop").click(function(){
@@ -398,11 +405,12 @@
 			var borne = document.getElementById("chart_divB");
 			var pop = document.getElementById("chart_divP");
 			var gen = document.getElementById("chart_divG");
+			var perso = document.getElementById("chart_divL");
 			gen.style.display = "inline";
 			pop.style.display = "none";
 			borne.style.display = "none";
-
-
+			perso.style.display = "none";
+		
 		});
 
 		$("#pop").click(function(){
@@ -410,11 +418,83 @@
 	  		var borne = document.getElementById("chart_divB");
 			var pop = document.getElementById("chart_divP");
 			var gen = document.getElementById("chart_divG");
+			var perso = document.getElementById("chart_divL");
 			gen.style.display = "none";
 			pop.style.display = "inline";
 			borne.style.display = "none";
-		});
+			perso.style.display = "none";
+		});		
+		
+		$("#loadgraph").click(function(){
+			
+			//gerer affichage
+			var borne = document.getElementById("chart_divB");
+			var pop = document.getElementById("chart_divP");
+			var gen = document.getElementById("chart_divG");
+			var perso = document.getElementById("chart_divL");
+			gen.style.display = "none";
+			pop.style.display = "none";
+			borne.style.display = "none";
+			perso.style.display = "inline";
+				
+			
+			
+			var dataL = new google.visualization.DataTable();
+			dataL.addColumn('string', 'Quartiers');
+			dataL.addColumn('number', 'Nombre Habitants');
+			dataL.addColumn('number', 'Nombre Bornes Wi-Fi');
+			
+			var liste = document.getElementById("listeQuartiers");
+			var items = liste.getElementsByTagName("li");
 
+			//var quart = issou.split('<');
+			//console.log(quart[0].trim());
+			
+			var donnees = [];
+			for (var i=0; i < items.length; i++){
+				var str = items[i].innerHTML.split('<');
+				var q = str[0].trim();				
+				$.ajax({
+					 url: 'PHP/GraphiquePerso.php',
+					 data: 'quartier='+q,
+					 success: function(response){
+						console.log(response);
+						var win = response.split(",");
+						//dataL.addRow([win[0],parseFloat(win[1]),parseFloat(win[2])]);
+						donnees.push([win[0],parseFloat(win[1]),parseFloat(win[2])]);
+						console.log("SAH QUEL PLAISIR");
+						}
+				});
+			}
+			console.log(donnees);
+			//var date = google.visualization.arrayToDataTable(JSON.parse(donnees));
+			dataL.addRows(donnees);
+				
+			var options = {
+				title: 'Nombre d\'habitants et de Bornes par Quartiers',
+				seriesType : 'bars',
+				legend: { position: 'bottom' },
+				series: {
+					0: {axis: 'a', targetAxisIndex: 0},
+					1: {axis: 'b', targetAxisIndex: 1, type: 'line'}
+				},	
+				hAxis: {
+				title: 'Quartiers',
+				textPosition: 'none',
+				viewWindow: {
+					min: [7, 30, 0],
+					max: [17, 30, 0]
+					}
+				},
+				tooltip : { trigger : 'both' }
+			};
+			
+			PersoChart = new google.visualization.ComboChart(document.getElementById('chart_divL'));
+			
+			
+			PersoChart.draw(dataL, options);		
+			
+		});
 	});
 
 
@@ -499,10 +579,14 @@
 			mod.style.visibility="hidden";
 			sauv.style.visibility="visible";
 			anu.style.visibility="visible";
+			
+			// var site = document.getElementById("site");
+			// var texts = document.getElementById("site").innerHTML;
+			// site.innerHTML ="<input type=\"text\" id=\"site_brn\" value='"+texts+"'></input>";
 
 			var dispo = document.getElementById("dispo");
-			var text = document.getElementById("dispo").innerHTML;
-			dispo.innerHTML="<input type=\"text\" id=\"dispo_brn\" value='"+text+"'></input>";
+			var textd = document.getElementById("dispo").innerHTML;
+			dispo.innerHTML="<input type=\"text\" id=\"dispo_brn\" value='"+textd+"'></input>";
 
 			var nomC = document.getElementById("nomC");
 			var text2 = document.getElementById("nomC").innerHTML;
@@ -514,6 +598,11 @@
 			var mod= document.getElementById("modifier");
 			var sauv= document.getElementById("sauvegarder");
 			var anu= document.getElementById("annuler");
+			
+			// var site = document.getElementById("site");
+			// var texts = document.getElementById("site_brn").value;
+			// site.innerHTML=texts;			
+			
 			var dispo = document.getElementById("dispo");
 			var nomC = document.getElementById("nomC");
 			var text = document.getElementById("dispo_brn").value;
@@ -521,25 +610,61 @@
 			dispo.innerHTML=text;
 			nomC.innerHTML=text2;
 
-
 			mod.style.visibility="visible";
 			sauv.style.visibility="hidden";
 			anu.style.visibility="hidden";
 
 			}
-
-		//FONCTION AJOUT QUARTIER DANS LISTE POUR CHART
-		function MyFunctionAjout(){
-
+			
+			
+		function Display_Loadgraph(){
+			var br = document.getElementsByClassName("br");
+			var btn = document.getElementById("loadgraph");
+			var liste = document.getElementById("listeQuartiers");
+			var items = liste.getElementsByTagName("li");
+			if(items.length == 0){
+				liste.style.display = "none";
+				btn.style.display = "none";
+				for (var i=0; i < br.length; i++) {
+					br[i].style.display = "none";
+				}	
 			}
-
-		function MyFunctionAjoutList(){
-
+			else{
+				liste.style.display = "inline";
+				btn.style.display = "inline";
+				for (var i=0; i < br.length; i++) {
+					br[i].style.display = "inline";
+				}
+			}
+		};
+			
+		Display_Loadgraph();
+		//FONCTION AJOUT QUARTIER DANS LISTE POUR CHART
+		function MyFunctionAjoutList(){ 
+		
 			var newQuartier= document.getElementById("quartiername").text;
-			document.getElementById("listeQuartiers").append("<li>"+newQuartier+"<i class=\"fas fa-times\"></i></li>");
-
+			var liste = document.getElementById("listeQuartiers");
+			var li = document.createElement("li");
+			var cross = document.createElement("i");
+			cross.setAttribute("class", "fas fa-times");
+			cross.setAttribute("onclick", "Supprimer_Quartiers_Liste(\""+newQuartier+"\")");
+			li.appendChild(document.createTextNode(newQuartier+" "));
+			li.appendChild(cross);
+			li.setAttribute("id", newQuartier);
+			//document.getElementById("listeQuartiers").append("<li>"+newQuartier+"<i class=\"fas fa-times\"></i></li>");
+			liste.appendChild(li);
+			Display_Loadgraph();
+	
 			};
-
+			
+		function Supprimer_Quartiers_Liste(newQuartier){
+			
+			var liste = document.getElementById("listeQuartiers");
+			var quartier = document.getElementById(newQuartier);
+			liste.removeChild(quartier);
+			Display_Loadgraph();			
+			
+		};
 	</script>
 
 	</script>

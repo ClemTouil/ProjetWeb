@@ -29,7 +29,7 @@
 				<U>Disponibilité</U> : '.$row['dispo'].'\
 				</br>\
 				<button class=\"btn-xs btn-dark\" id=\"modifier\" type=\"button\" onclick=\"Modifier()\">Modifier</button>\
-				<button class=\"btn-xs btn-dark\" id=\"sauvegarder\" type=\"submit\" onclick=\"MyFunction2()\">Sauvegarder</button>\
+				<button class=\"btn-xs btn-dark\" id=\"sauvegarder\" type=\"submit\">Sauvegarder</button>\
 				<button class=\"btn-xs btn-dark\" id=\"annuler\" type=\"button\" onclick=\"Annuler()\">Annuler</button>\
 		</form>");markers.addLayer('.$bornes.'); ';
         }
