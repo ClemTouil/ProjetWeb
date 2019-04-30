@@ -18,7 +18,7 @@
 			$quartier = $row['nom_q']; // pour l'adaptation du nom de l'url
 			$comtpe = json_decode($row['liste_b']);
 			$cpt = count($comtpe);
-			echo $quartier.','.$row['population'].','.$cpt;
+			echo $quartier.','.$row['population'];
         }
     }
 ?>

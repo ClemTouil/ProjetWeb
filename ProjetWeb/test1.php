@@ -1,30 +1,114 @@
+<!DOCTYPE html>
+<html>
+<head>
+<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+<script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
+</head>
+<body>
 <?php
-	
-    if ($mysqli->connect_errno) { // Si il y'a une erreur de connexion alors :
-        printf("Échec de la connexion : %s\n", $mysqli->connect_error);
-        exit();
-    }else { // Si la connexion se passe bien alors :
 
-        $result = mysqli_query($mysqli,"SELECT latitude, longitude, site, adresse, quartier, dispo FROM borneswifi ");
-        while ( $row = mysqli_fetch_array($result)) {
-			//Generer la variable avec nom du quartier 
-			$bornes = $row['site']; // pour l'adaptation du nom de l'url
-			$bannis = array(' ','-','\'','é','è');//Complète ici tout les mots qui dooivent être remplacé
-			$accepte = array('_','_','_','e','e');
-			$bornes = str_replace($bannis, $accepte, $row['site']); // on remplace les espaces par des tirets
-			$bornes = preg_replace('/[^A-Za-z0-9\-]/', '', $bornes);
-			echo 'var '.$bornes.' = L.marker(['.$row['latitude'].','.$row['longitude'].'], {icon: wifiIcon}).bindPopup("<form method=\"post\" action=\"ModifierBorne.php\">\
-		<center><B>'.$row['site'].'</B></center>\
-				<U>Quartier</U> : '.$row['quartier'].'\
-				<br>\
-				<U>Adresse</U> : '.$row['adresse'].'\
-				<br>\
-				<U>Disponibilité</U> : '.$row['dispo'].'\
-				</br>\
-				<button class=\"btn-xs btn-dark\" id=\"modifier\" type=\"button\" onclick=\"MyFunction1()\">Modifier</button>\
-				<button class=\"btn-xs btn-dark\" id=\"sauvegarder\" type=\"submit\" onclick=\"MyFunction2()\">Sauvegarder</button>\
-				<button class=\"btn-xs btn-dark\" id=\"annuler\" type=\"button\" onclick=\"MyFunction3()\">Annuler</button>\
-		</form>").addTo(map); ';
-        }
-    }
-?>
+    define('HOSTNAME','localhost');
+    define('DB_USERNAME','root');
+    define('DB_PASSWORD','');
+    define('DB_NAME','projet_web');
+
+    $mysqli = new mysqli(HOSTNAME, DB_USERNAME, DB_PASSWORD, DB_NAME);
+
+	?>
+<div id="chartContainer" style="height: 370px; width: 100%;"></div>
+<script>
+window.onload = function () {					
+var finals =[];
+console.log("longueur du CUL : "+finals.length);
+$.ajax({
+		url: 'PopulationPerso.php',
+		async: false,
+		data: 'quartier='+'GRAMONT',
+		success: function(response){
+				console.log(response);
+				var oui = response.split(',');
+				//eval(response);
+				finals.push({ 'label': oui[0], 'y': parseFloat(oui[1])});
+				console.log("longueur du CUL : "+finals.length);
+				//listeP.push(response);
+				console.log(oui[0]);
+				console.log(parseFloat(oui[1]));
+			}
+		});						
+var chart = new CanvasJS.Chart("chartContainer", {
+	exportEnabled: true,
+	animationEnabled: true,
+	title:{
+		text: "Nombre d'habitants et de Bornes par Quartiers"
+	},
+	subtitles: [{
+		text: "Click Legend to Hide or Unhide Data Series"
+	}], 
+	axisX: {
+		title: "States"
+	},
+	axisY: {
+		title: "Nombre Habitants",
+		titleFontColor: "black",
+		lineColor: "#4F81BC",
+		labelFontColor: "#4F81BC",
+		tickColor: "#4F81BC"
+	},
+	axisY2: {
+		title: "Nombre Bornes",
+		titleFontColor: "black",
+		lineColor: "#C0504E",
+		labelFontColor: "#C0504E",
+		tickColor: "#C0504E"
+	},
+	toolTip: {
+		shared: true
+	},
+	legend: {
+		cursor: "pointer",
+		itemclick: toggleDataSeries
+	},
+	data: [{
+		type: "column",
+		name: "Nombre Habitants",
+		showInLegend: true,      
+		yValueFormatString: "###0.# ",
+		dataPoints: eval(finals),
+		
+	},
+	{
+		type: "line",
+		name: "Nombre Bornes",
+		axisYType: "secondary",
+		showInLegend: true,
+		yValueFormatString: "## ",
+		dataPoints: [
+			{ label: "GRAMONT", y: 10},
+			{ label: "New Jersey", y: 21 },
+			{ label: "Texas", y: 13 },
+			{ label: "Oregon", y: 42 },
+			{ label: "Montana", y: 13 },
+			{ label: "Massachusetts", y: 52 }
+		]
+	}]
+});console.log
+
+//console.log("ICICICI : "+chart.options.data[0]);
+console.log("longueur du CUL : "+finals.length);		
+chart.render();
+
+function toggleDataSeries(e) {
+	if (typeof (e.dataSeries.visible) === "undefined" || e.dataSeries.visible) {
+		e.dataSeries.visible = false;
+	} else {
+		e.dataSeries.visible = true;
+	}
+	e.chart.render();
+}
+
+}
+</script>
+<div id="chartContainer" style="height: 370px; width: 100%;"></div>
+</body>
+</html>

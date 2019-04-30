@@ -60,7 +60,7 @@
 
 				</ul>
 				<br class="br">
-				<a href="#"  id="loadgraph" class="btn btn-dark" style="display: none" >Génerer Graphique</a>
+				<a href="#"  id="loadgraph" class="btn btn-dark" style="display: none" >Tout supprimer</a>
 				<br class="br">
 				<br class="br">
 				
@@ -252,7 +252,7 @@
 			  console.log(err.message);
 		  }
 
-        }
+        }	
 
 	  var containerB = document.getElementById('chart_divB');
 	  containerB.style.display = 'block';
@@ -301,9 +301,10 @@
 				quartier = quartier.split('-').join('_');
 				liste_quartiers_noirs.push([quartier,nombreh]);
 				var epais = eval(quartier);
-				epais.setStyle({color: '#666', fillColor: 'white',opacity: 0.9,weight: 7});
+				epais.setStyle({color: '#666', fillColor: 'grey',opacity: 0.9,weight: 7});
 				epais.openPopup();
-				MyFunctionAjoutList();
+				map.fitBounds(epais.getBounds());
+				//MyFunctionAjoutList();
           }
 			}catch(err){
 				console.log(err.message);
@@ -424,76 +425,13 @@
 			borne.style.display = "none";
 			perso.style.display = "none";
 		});		
-		
-		$("#loadgraph").click(function(){
-			
-			//gerer affichage
-			var borne = document.getElementById("chart_divB");
-			var pop = document.getElementById("chart_divP");
-			var gen = document.getElementById("chart_divG");
-			var perso = document.getElementById("chart_divL");
-			gen.style.display = "none";
-			pop.style.display = "none";
-			borne.style.display = "none";
-			perso.style.display = "inline";
-				
-			
-			
-			var dataL = new google.visualization.DataTable();
-			dataL.addColumn('string', 'Quartiers');
-			dataL.addColumn('number', 'Nombre Habitants');
-			dataL.addColumn('number', 'Nombre Bornes Wi-Fi');
-			
-			var liste = document.getElementById("listeQuartiers");
-			var items = liste.getElementsByTagName("li");
+		//SUPPRIME TOUT LES QUARTIERS DE LA LISTE BRO
+		$("#loadgraph").click(function(){ 		
+			//var liste = document.getElementById("listeQuartiers");
+			$("#listeQuartiers").empty();
+			Display_Loadgraph();
+			//var items = liste.getElementsByTagName("li");
 
-			//var quart = issou.split('<');
-			//console.log(quart[0].trim());
-			
-			var donnees = [];
-			for (var i=0; i < items.length; i++){
-				var str = items[i].innerHTML.split('<');
-				var q = str[0].trim();				
-				$.ajax({
-					 url: 'PHP/GraphiquePerso.php',
-					 data: 'quartier='+q,
-					 success: function(response){
-						console.log(response);
-						var win = response.split(",");
-						//dataL.addRow([win[0],parseFloat(win[1]),parseFloat(win[2])]);
-						donnees.push([win[0],parseFloat(win[1]),parseFloat(win[2])]);
-						console.log("SAH QUEL PLAISIR");
-						}
-				});
-			}
-			console.log(donnees);
-			//var date = google.visualization.arrayToDataTable(JSON.parse(donnees));
-			dataL.addRows(donnees);
-				
-			var options = {
-				title: 'Nombre d\'habitants et de Bornes par Quartiers',
-				seriesType : 'bars',
-				legend: { position: 'bottom' },
-				series: {
-					0: {axis: 'a', targetAxisIndex: 0},
-					1: {axis: 'b', targetAxisIndex: 1, type: 'line'}
-				},	
-				hAxis: {
-				title: 'Quartiers',
-				textPosition: 'none',
-				viewWindow: {
-					min: [7, 30, 0],
-					max: [17, 30, 0]
-					}
-				},
-				tooltip : { trigger : 'both' }
-			};
-			
-			PersoChart = new google.visualization.ComboChart(document.getElementById('chart_divL'));
-			
-			
-			PersoChart.draw(dataL, options);		
-			
 		});
 	});
 
@@ -617,6 +555,174 @@
 			}
 			
 			
+
+		//FONCTION AJOUT QUARTIER DANS LISTE POUR CHART
+		
+		function MonsterReborn(){
+						var borne = document.getElementById("chart_divB");
+			var pop = document.getElementById("chart_divP");
+			var gen = document.getElementById("chart_divG");
+			var perso = document.getElementById("chart_divL");
+			gen.style.display = "none";
+			pop.style.display = "none";
+			borne.style.display = "none";
+			perso.style.display = "inline";
+				
+			
+			
+			var dataL = new google.visualization.DataTable();
+			dataL.addColumn('string', 'Quartiers');
+			dataL.addColumn('number', 'Nombre Habitants');
+			dataL.addColumn('number', 'Nombre Bornes Wi-Fi');
+			
+			var liste = document.getElementById("listeQuartiers");
+			var items = liste.getElementsByTagName("li");
+
+			//var quart = issou.split('<');
+			//console.log(quart[0].trim());
+			
+			var donnees = [];
+			//dataL.addRows(items.length);
+			//console.log(items.length);
+			var count = 0;
+			for (var i=0; i < items.length; i++){
+				//console.log("i zen:"+i);
+				var str = items[i].innerHTML.split('<');
+				var q = str[0].trim();				
+				$.ajax({
+					 url: 'PHP/GraphiquePerso.php',
+					 async: false,
+					 data: 'quartier='+q,
+					 success: function(response){
+						var str = response.split(',');
+						donnees.push([str[0],parseFloat(str[1]),parseFloat(str[2])]);
+						 //console.log(str);
+						 //console.log(str[0]);
+						 //console.log(parseFloat(str[1]));
+						 //console.log(parseFloat(str[2]));
+
+
+						}
+				});
+			}
+			//console.log("datas :"+donnees);
+			dataL.addRows(donnees);
+				
+			var options = {
+				title: 'Nombre d\'habitants et de Bornes par Quartiers',
+				seriesType : 'bars',
+				legend: { position: 'bottom' },
+				series: {
+					0: {axis: 'a', targetAxisIndex: 0},
+					1: {axis: 'b', targetAxisIndex: 1, type: 'line'}
+				},	
+				hAxis: {
+				title: 'Quartiers',
+				textPosition: 'none',
+				viewWindow: {
+					min: [7, 30, 0],
+					max: [17, 30, 0]
+					}
+				},
+				tooltip : { trigger : 'both' }
+			};
+			
+			PersoChart = new google.visualization.ComboChart(document.getElementById('chart_divL'));
+			//console.log(dataL);
+						function selectHandlerMR() {
+							try{
+								var selectedItem = PersoChart.getSelection()[0];
+								console.log(selectedItem);
+								if (selectedItem) {
+									var quartier = dataL.getValue(selectedItem.row, 0);
+									var nombreh = dataL.getValue(selectedItem.row, 1);
+									quartier = quartier.split(' ').join('_');
+									quartier = quartier.split('\'').join('_');
+									quartier = quartier.split('-').join('_');
+									var zoom = eval(quartier);
+									zoom.setStyle({color: '#666',opacity: 0.9,weight: 7});
+									zoom.openTooltip();
+									liste_quartiers_noirs.push([quartier,nombreh]);
+									map.fitBounds(zoom.getBounds());
+
+								};
+							}catch(err){
+								console.log(err.message);
+							};
+						};
+
+						function onmouseoverHandlerMR(e) {
+							try {
+								PersoChart.setSelection([]);
+								var quartier = dataL.getValue(e.row, 0);
+								var nombreh = dataL.getValue(e.row, 1);
+								quartier = quartier.split(' ').join('_');
+								quartier = quartier.split('\'').join('_');
+								quartier = quartier.split('-').join('_');
+								liste_quartiers_noirs.push([quartier,nombreh]);
+								var surligne = eval(quartier);
+								surligne.setStyle({color: '#666',opacity: 0.9,weight: 7});
+								surligne.openTooltip();
+							}catch(err){
+								console.log(err.message);
+							};
+
+						};
+
+						function onmouseoutHandlerMR(e) {
+							try{
+								var quartier = dataL.getValue(e.row, 0);
+								var nombreh = dataL.getValue(e.row, 1);
+								quartier = quartier.split(' ').join('_');
+								quartier = quartier.split('\'').join('_');
+								quartier = quartier.split('-').join('_');
+								liste_quartiers_noirs.push([quartier,nombreh]);
+								var p_surligne = eval(quartier);
+								p_surligne.setStyle({color: '#666',opacity: 0.9,weight: 2});
+								p_surligne.closeTooltip();
+							}catch(err){
+								console.log(err.message);
+							};
+						};
+
+			google.visualization.events.addListener(PersoChart, 'select', selectHandlerMR);
+			google.visualization.events.addListener(PersoChart, 'onmouseover', onmouseoverHandlerMR);
+			google.visualization.events.addListener(PersoChart, 'onmouseout', onmouseoutHandlerMR);
+			PersoChart.draw(dataL, options);		
+			
+		};
+		
+		function MyFunctionAjoutList(){ 
+		
+			var newQuartier= document.getElementById("quartiername").text;
+			var liste = document.getElementById("listeQuartiers");
+			var dejaLa = false;
+			try{
+				var items = liste.getElementsByTagName("li");
+				for (var i=0; i < items.length; i++) {
+					var str = items[i].innerHTML; 
+					var table = str.split('<'); 
+					if(newQuartier == table[0].trim()){
+						dejaLa = true;
+					};
+				};
+				if (!dejaLa){
+					var li = document.createElement("li");
+					var cross = document.createElement("i");
+					cross.setAttribute("class", "fas fa-times");
+					cross.setAttribute("onclick", "Supprimer_Quartiers_Liste(\""+newQuartier+"\")");
+					li.appendChild(document.createTextNode(newQuartier+" "));
+					li.appendChild(cross);
+					li.setAttribute("id", newQuartier);
+					//document.getElementById("listeQuartiers").append("<li>"+newQuartier+"<i class=\"fas fa-times\"></i></li>");
+					liste.appendChild(li);
+					Display_Loadgraph();					
+				}
+			}catch(err){
+				console.log(err.message);
+			};
+			};
+			
 		function Display_Loadgraph(){
 			var br = document.getElementsByClassName("br");
 			var btn = document.getElementById("loadgraph");
@@ -625,38 +731,23 @@
 			if(items.length == 0){
 				liste.style.display = "none";
 				btn.style.display = "none";
+				document.getElementById("borneetpop").click();
 				for (var i=0; i < br.length; i++) {
 					br[i].style.display = "none";
 				}	
 			}
 			else{
+				//PARTIE AFFICHAGE LISTE 
 				liste.style.display = "inline";
 				btn.style.display = "inline";
 				for (var i=0; i < br.length; i++) {
 					br[i].style.display = "inline";
 				}
+				MonsterReborn();
 			}
 		};
-			
 		Display_Loadgraph();
-		//FONCTION AJOUT QUARTIER DANS LISTE POUR CHART
-		function MyFunctionAjoutList(){ 
 		
-			var newQuartier= document.getElementById("quartiername").text;
-			var liste = document.getElementById("listeQuartiers");
-			var li = document.createElement("li");
-			var cross = document.createElement("i");
-			cross.setAttribute("class", "fas fa-times");
-			cross.setAttribute("onclick", "Supprimer_Quartiers_Liste(\""+newQuartier+"\")");
-			li.appendChild(document.createTextNode(newQuartier+" "));
-			li.appendChild(cross);
-			li.setAttribute("id", newQuartier);
-			//document.getElementById("listeQuartiers").append("<li>"+newQuartier+"<i class=\"fas fa-times\"></i></li>");
-			liste.appendChild(li);
-			Display_Loadgraph();
-	
-			};
-			
 		function Supprimer_Quartiers_Liste(newQuartier){
 			
 			var liste = document.getElementById("listeQuartiers");
