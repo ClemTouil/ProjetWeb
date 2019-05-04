@@ -38,46 +38,138 @@
 	?>
 
 	<header id="entete">
+		</br>	
+		<i id ="img"class="fas fa-wifi">  Bornes Wi-Fi à Toulouse</i>
 		</br>
 		</br>
-		</br>
-		<div id="bouton_menu">
-			<a href="Visualisation.php" role="button" class="btn btn-light" >Visualisation</a>
-			<a href="Gestion.php" role="button" class="btn btn-light" >Gestion</a>
-		</div>
 	</header>
 
 	<form>
 	  <input type="text" name="search" placeholder="Search..">
 	</form>
-	<div id ="putain">
-		<a href="#"  id="reset" class="btn btn-dark" >Vue d'ensemble</a>
-	</div>
+	
+
+
 	<div id="HighFiveCrew">
+			<div id ="putain">
+				<a href="#"  id="reset" class="btn btn-dark" >Vue d'ensemble</a>
+			</div>
+			<div id="graphe_menu">
+					<a href="#"  id="borne" class="btn btn-dark" >Bornes</a>
+					<a href="#"  id="pop" class="btn btn-dark" >Population</a>
+					<a href="#"  id="borneetpop" class="btn btn-dark" >Bornes/Population</a>
+			</div>
 			<div id='map'></div>
 			<div>
-				<ul id="listeQuartiers" style="display: none">
-
-				</ul>
-				<br class="br">
-				<a href="#"  id="loadgraph" class="btn btn-dark" style="display: none" >Tout supprimer</a>
-				<br class="br">
-				<br class="br">
 				
 				<div id="chart_divB"  class="chart" ></div>
 				<div id="chart_divG"  class="chart" ></div>
 				<div id="chart_divP" class="chart" ></div>
 				<div id="chart_divL" class="chart" ></div>
-				
-				<div id="graphe_menu">
-					<a href="#"  id="borne" class="btn btn-dark" >Bornes</a>
-					<a href="#"  id="pop" class="btn btn-dark" >Population</a>
-					<a href="#"  id="borneetpop" class="btn btn-dark" >Bornes/Population</a>
-				</div>
+
+
 			</div>
+	</div> 
+	 	<!-- Fenêtre modale -->
+	<div id="theLayer" style="position:absolute;width:250px;left:100;top:3%;visibility:hidden">
+		<table border="0" width="250" bgcolor="black" cellspacing="0" cellpadding="5">
+		<tr><td width="100%">
+		<table border="0" width="100%" cellspacing="0" cellpadding="0" height="36">
+
+		<!-- Barre pour le titre -->
+
+		<tr><td id="titleBar" style="cursor:move" width="100%">
+
+		<font face="Verdana" size="2" color="white"><b>Liste Quartiers</b></font>
+
+		<td style="cursor:hand" valign="top"><a href="#" onClick="hideMe();return false"><font color=#ffffff size=2 face=arial  style="text-decoration:none">X</font></a>
+		</td></tr>
+
+
+		<!-- Texte dans la fenêtre -->
+		<tr><td width="100%" bgcolor="#FFFFFF" style="padding:4px" colspan="2">
+		<font id="quartiersemplacement"face="Verdana" size="2" color="#000080">
+		<ul id="listeQuartiers" style="list-style-type:none;">
+
+		</ul>
+		<button href="hideMe()"  id="loadgraph" class="btn btn-dark">Tout supprimer</button>
+		</font>
+		</td></tr></table> 
+		</td></tr></table>
 	</div>
 
+
+
 	<script>
+			//Make the DIV element draggagle:
+	dragElement(document.getElementById("theLayer"));
+
+	function dragElement(elmnt) {
+	  var pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
+	  if (document.getElementById(elmnt.id + "header")) {
+		/* if present, the header is where you move the DIV from:*/
+		document.getElementById(elmnt.id + "header").onmousedown = dragMouseDown;
+	  } else {
+		/* otherwise, move the DIV from anywhere inside the DIV:*/
+		elmnt.onmousedown = dragMouseDown;
+	  }
+
+	  function dragMouseDown(e) {
+		e = e || window.event;
+		e.preventDefault();
+		// get the mouse cursor position at startup:
+		pos3 = e.clientX;
+		pos4 = e.clientY;
+		document.onmouseup = closeDragElement;
+		// call a function whenever the cursor moves:
+		document.onmousemove = elementDrag;
+	  }
+
+	  function elementDrag(e) {
+		e = e || window.event;
+		e.preventDefault();
+		// calculate the new cursor position:
+		pos1 = pos3 - e.clientX;
+		pos2 = pos4 - e.clientY;
+		pos3 = e.clientX;
+		pos4 = e.clientY;
+		// set the element's new position:
+		elmnt.style.top = (elmnt.offsetTop - pos2) + "px";
+		elmnt.style.left = (elmnt.offsetLeft - pos1) + "px";
+	  }
+
+	  function closeDragElement() {
+		/* stop moving when mouse button is released:*/
+		document.onmouseup = null;
+		document.onmousemove = null;
+	  }
+	}
+
+	function hideMe(){
+		theLayer.style.visibility="hidden";
+
+	}
+
+	function showMe(){
+		theLayer.style.visibility="visible";
+
+	}
+
+
+
+
+	
+	
+
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	//GRAPHIQUE
 	google.charts.load('current', {packages: ['corechart', 'bar', 'line']});
 	google.charts.setOnLoadCallback(drawGeneralChart);
@@ -430,6 +522,7 @@
 			//var liste = document.getElementById("listeQuartiers");
 			$("#listeQuartiers").empty();
 			Display_Loadgraph();
+			hideMe();
 			//var items = liste.getElementsByTagName("li");
 
 		});
@@ -738,6 +831,7 @@
 			}
 			else{
 				//PARTIE AFFICHAGE LISTE 
+				showMe();
 				liste.style.display = "inline";
 				btn.style.display = "inline";
 				for (var i=0; i < br.length; i++) {
