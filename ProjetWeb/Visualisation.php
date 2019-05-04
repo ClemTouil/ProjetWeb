@@ -38,7 +38,7 @@
 	?>
 
 	<header id="entete">
-		</br>	
+		</br>
 		<i id ="img"class="fas fa-wifi">  Bornes Wi-Fi à Toulouse</i>
 		</br>
 		</br>
@@ -47,7 +47,7 @@
 	<form>
 	  <input type="text" name="search" placeholder="Search..">
 	</form>
-	
+
 
 
 	<div id="HighFiveCrew">
@@ -61,7 +61,7 @@
 			</div>
 			<div id='map'></div>
 			<div>
-				
+
 				<div id="chart_divB"  class="chart" ></div>
 				<div id="chart_divG"  class="chart" ></div>
 				<div id="chart_divP" class="chart" ></div>
@@ -69,7 +69,7 @@
 
 
 			</div>
-	</div> 
+	</div>
 	 	<!-- Fenêtre modale -->
 	<div id="theLayer" style="position:absolute;width:250px;left:100;top:3%;visibility:hidden">
 		<table border="0" width="250" bgcolor="black" cellspacing="0" cellpadding="5">
@@ -94,7 +94,7 @@
 		</ul>
 		<button href="hideMe()"  id="loadgraph" class="btn btn-dark">Tout supprimer</button>
 		</font>
-		</td></tr></table> 
+		</td></tr></table>
 		</td></tr></table>
 	</div>
 
@@ -167,18 +167,18 @@
 
 
 
-	
-	
 
-	
-	
-	
-	
-	
-	
-	
-	
-	
+
+
+
+
+
+
+
+
+
+
+
 	//GRAPHIQUE
 	google.charts.load('current', {packages: ['corechart', 'bar', 'line']});
 	google.charts.setOnLoadCallback(drawGeneralChart);
@@ -577,7 +577,7 @@
 		var createborne = L.popup();
 			createborne
 				.setLatLng(e.latlng)
-				.setContent("<form id=\"ajoutBorne\" method=\"post\"><center><B>Ajouter une borne</B></center></br>Latitude : <input type=\"text\" name=\"lat\" value=\""+lat+"\"></br></br>Longitude : <input type=\"text\" name=\"long\" value=\""+long+"\"></br><input type=\"hidden\" name=\"quartier\"></br>Nom de la borne : <input type=\"text\" name=\"namebor\"> \<br><br>Année d\'installation : <input type=\"text\" name=\"annee\" value=\"2019\" readonly><br><br>Zone d\'émission : <select name=\"emission\"><option value=\"interieur\">intérieur</option> <option value=\"exterieur\">extérieur</option></select> <br><br>Nom de connexion : <input type=\"text\" name=\"nameco\"><br><br>Disponibilité : <select name=\"dispo\"><option value=\"24h/24h (avec garantie)\">24h/24h (avec garantie)</option> <option value=\"24h/24h (sans garantie)\">24h/24h (sans garantie)</option></select> <br><br>Adresse : <input type=\"text\" name=\"adresse\"><br><br><button class=\"btn-xs btn-dark\" id=\"soumettre\" type=\"button\">Valider</button></form>")
+				.setContent("<form id=\"ajoutBorne\" method=\"post\"><center><B>Ajouter une borne</B></center><input type=\"hidden\" name=\"lat\" value=\""+lat+"\"><input type=\"hidden\" name=\"long\" value=\""+long+"\"><input type=\"hidden\" name=\"quartier\"></br>Nom de la borne : <input type=\"text\" name=\"namebor\"> \<br><br>Année d\'installation : <input type=\"text\" name=\"annee\" value=\"2019\" readonly><br><br>Zone d\'émission : <select name=\"emission\"><option value=\"interieur\">intérieur</option> <option value=\"exterieur\">extérieur</option></select> <br><br>Nom de connexion : <input type=\"text\" name=\"nameco\"><br><br>Disponibilité : <select name=\"dispo\"><option value=\"24h/24h (avec garantie)\">24h/24h (avec garantie)</option> <option value=\"24h/24h (sans garantie)\">24h/24h (sans garantie)</option></select> <br><br>Adresse : <input type=\"text\" name=\"adresse\"><br><br><button class=\"btn-xs btn-dark\" id=\"soumettre\" type=\"button\">Valider</button></form>")
 				.openOn(map);
 
 		}
@@ -844,7 +844,7 @@
 			}
 			else{
 
-				//PARTIE AFFICHAGE LISTE 
+				//PARTIE AFFICHAGE LISTE
 				showMe();
 
 				liste.style.display = "inline";
