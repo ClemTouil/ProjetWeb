@@ -82,7 +82,7 @@
 
 		<font face="Verdana" size="2" color="white"><b>Liste Quartiers</b></font>
 
-		<td style="cursor:hand" valign="top"><a href="#" onClick="hideMe();return false"><font color=#ffffff size=2 face=arial  style="text-decoration:none">X</font></a>
+		<td style="cursor:hand" valign="top"><a id="loadgraph" href="#" onClick="hideMe();return false"><font color=#ffffff size=2 face=arial  style="text-decoration:none">X</font></a>
 		</td></tr>
 
 
@@ -147,6 +147,15 @@
 
 	function hideMe(){
 		theLayer.style.visibility="hidden";
+				//SUPPRIME TOUT LES QUARTIERS DE LA LISTE BRO
+		$("#loadgraph").click(function(){
+			//var liste = document.getElementById("listeQuartiers");
+			$("#listeQuartiers").empty();
+			Display_Loadgraph();
+			hideMe();
+			//var items = liste.getElementsByTagName("li");
+
+		});
 
 	}
 
