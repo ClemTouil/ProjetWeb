@@ -344,7 +344,7 @@
 			  console.log(err.message);
 		  }
 
-        }	
+        }
 
 	  var containerB = document.getElementById('chart_divB');
 	  containerB.style.display = 'block';
@@ -503,7 +503,7 @@
 			pop.style.display = "none";
 			borne.style.display = "none";
 			perso.style.display = "none";
-		
+
 		});
 
 		$("#pop").click(function(){
@@ -516,9 +516,9 @@
 			pop.style.display = "inline";
 			borne.style.display = "none";
 			perso.style.display = "none";
-		});		
+		});
 		//SUPPRIME TOUT LES QUARTIERS DE LA LISTE BRO
-		$("#loadgraph").click(function(){ 		
+		$("#loadgraph").click(function(){
 			//var liste = document.getElementById("listeQuartiers");
 			$("#listeQuartiers").empty();
 			Display_Loadgraph();
@@ -604,13 +604,15 @@
 		//FONCTION POUR GERER LES BOUTONS DANS POPUP BORNES
 		function Modifier(){
 			var mod= document.getElementById("modifier");
+			var sup= document.getElementById("supprimer");
 			var sauv= document.getElementById("sauvegarder");
 			var anu= document.getElementById("annuler");
 
 			mod.style.visibility="hidden";
+			sup.style.visibility="hidden";
 			sauv.style.visibility="visible";
 			anu.style.visibility="visible";
-			
+
 			// var site = document.getElementById("site");
 			// var texts = document.getElementById("site").innerHTML;
 			// site.innerHTML ="<input type=\"text\" id=\"site_brn\" value='"+texts+"'></input>";
@@ -620,37 +622,39 @@
 			dispo.innerHTML="<input type=\"text\" id=\"dispo_brn\" value='"+textd+"'></input>";
 
 			var nomC = document.getElementById("nomC");
-			var text2 = document.getElementById("nomC").innerHTML;
+			var text2 = nomC.innerHTML;
 			nomC.innerHTML="<input type=\"text\" id=\"nom_c\" value='"+text2+"'></input>";
 
 			}
 
 		function Annuler(){
 			var mod= document.getElementById("modifier");
+			var sup= document.getElementById("supprimer");
 			var sauv= document.getElementById("sauvegarder");
 			var anu= document.getElementById("annuler");
-			
+
 			// var site = document.getElementById("site");
 			// var texts = document.getElementById("site_brn").value;
-			// site.innerHTML=texts;			
-			
+			// site.innerHTML=texts;
+
 			var dispo = document.getElementById("dispo");
 			var nomC = document.getElementById("nomC");
 			var text = document.getElementById("dispo_brn").value;
-			var text2 = document.getElementById("nomC").value;
+			var text2 = document.getElementById("nom_c").value;
 			dispo.innerHTML=text;
 			nomC.innerHTML=text2;
 
 			mod.style.visibility="visible";
+			sup.style.visibility="visible";
 			sauv.style.visibility="hidden";
 			anu.style.visibility="hidden";
 
 			}
-			
-			
+
+
 
 		//FONCTION AJOUT QUARTIER DANS LISTE POUR CHART
-		
+
 		function MonsterReborn(){
 						var borne = document.getElementById("chart_divB");
 			var pop = document.getElementById("chart_divP");
@@ -660,20 +664,20 @@
 			pop.style.display = "none";
 			borne.style.display = "none";
 			perso.style.display = "inline";
-				
-			
-			
+
+
+
 			var dataL = new google.visualization.DataTable();
 			dataL.addColumn('string', 'Quartiers');
 			dataL.addColumn('number', 'Nombre Habitants');
 			dataL.addColumn('number', 'Nombre Bornes Wi-Fi');
-			
+
 			var liste = document.getElementById("listeQuartiers");
 			var items = liste.getElementsByTagName("li");
 
 			//var quart = issou.split('<');
 			//console.log(quart[0].trim());
-			
+
 			var donnees = [];
 			//dataL.addRows(items.length);
 			//console.log(items.length);
@@ -681,7 +685,7 @@
 			for (var i=0; i < items.length; i++){
 				//console.log("i zen:"+i);
 				var str = items[i].innerHTML.split('<');
-				var q = str[0].trim();				
+				var q = str[0].trim();
 				$.ajax({
 					 url: 'PHP/GraphiquePerso.php',
 					 async: false,
@@ -700,7 +704,7 @@
 			}
 			//console.log("datas :"+donnees);
 			dataL.addRows(donnees);
-				
+
 			var options = {
 				title: 'Nombre d\'habitants et de Bornes par Quartiers',
 				seriesType : 'bars',
@@ -708,7 +712,7 @@
 				series: {
 					0: {axis: 'a', targetAxisIndex: 0},
 					1: {axis: 'b', targetAxisIndex: 1, type: 'line'}
-				},	
+				},
 				hAxis: {
 				title: 'Quartiers',
 				textPosition: 'none',
@@ -719,7 +723,7 @@
 				},
 				tooltip : { trigger : 'both' }
 			};
-			
+
 			PersoChart = new google.visualization.ComboChart(document.getElementById('chart_divL'));
 			//console.log(dataL);
 						function selectHandlerMR() {
@@ -781,20 +785,20 @@
 			google.visualization.events.addListener(PersoChart, 'select', selectHandlerMR);
 			google.visualization.events.addListener(PersoChart, 'onmouseover', onmouseoverHandlerMR);
 			google.visualization.events.addListener(PersoChart, 'onmouseout', onmouseoutHandlerMR);
-			PersoChart.draw(dataL, options);		
-			
+			PersoChart.draw(dataL, options);
+
 		};
-		
-		function MyFunctionAjoutList(){ 
-		
+
+		function MyFunctionAjoutList(){
+
 			var newQuartier= document.getElementById("quartiername").text;
 			var liste = document.getElementById("listeQuartiers");
 			var dejaLa = false;
 			try{
 				var items = liste.getElementsByTagName("li");
 				for (var i=0; i < items.length; i++) {
-					var str = items[i].innerHTML; 
-					var table = str.split('<'); 
+					var str = items[i].innerHTML;
+					var table = str.split('<');
 					if(newQuartier == table[0].trim()){
 						dejaLa = true;
 					};
@@ -809,13 +813,13 @@
 					li.setAttribute("id", newQuartier);
 					//document.getElementById("listeQuartiers").append("<li>"+newQuartier+"<i class=\"fas fa-times\"></i></li>");
 					liste.appendChild(li);
-					Display_Loadgraph();					
+					Display_Loadgraph();
 				}
 			}catch(err){
 				console.log(err.message);
 			};
 			};
-			
+
 		function Display_Loadgraph(){
 			var br = document.getElementsByClassName("br");
 			var btn = document.getElementById("loadgraph");
@@ -827,11 +831,13 @@
 				document.getElementById("borneetpop").click();
 				for (var i=0; i < br.length; i++) {
 					br[i].style.display = "none";
-				}	
+				}
 			}
 			else{
+
 				//PARTIE AFFICHAGE LISTE 
 				showMe();
+
 				liste.style.display = "inline";
 				btn.style.display = "inline";
 				for (var i=0; i < br.length; i++) {
@@ -841,19 +847,19 @@
 			}
 		};
 		Display_Loadgraph();
-		
+
 		function Supprimer_Quartiers_Liste(newQuartier){
-			
+
 			var liste = document.getElementById("listeQuartiers");
 			var quartier = document.getElementById(newQuartier);
 			liste.removeChild(quartier);
-			Display_Loadgraph();			
-			
+			Display_Loadgraph();
+
 		};
 	</script>
 
 	</script>
-	<script type="text/javascript" src="JS/ajaxGraph.js"></script>
+	<script type="text/javascript" src="JS/ajaxSupprimerBorne.js"></script>
 	<script type="text/javascript" src="JS/ajaxModifBorne.js"></script>
 	<script type="text/javascript" src="JS/ajaxAjoutBorne.js"></script>
 
