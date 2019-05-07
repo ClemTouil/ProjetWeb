@@ -71,7 +71,7 @@
 			</div>
 	</div>
 	 	<!-- Fenêtre modale -->
-	<div id="theLayer" style="position:absolute;width:250px;left:100;top:3%;visibility:hidden">
+	<div id="theLayer" style="position:absolute;width:250px;left:85%;top:9%;visibility:hidden">
 		<table border="0" width="250" bgcolor="black" cellspacing="0" cellpadding="5">
 		<tr><td width="100%">
 		<table border="0" width="100%" cellspacing="0" cellpadding="0" height="36">
@@ -90,9 +90,8 @@
 		<tr><td width="100%" bgcolor="#FFFFFF" style="padding:4px" colspan="2">
 		<font id="quartiersemplacement"face="Verdana" size="2" color="#000080">
 		<ul id="listeQuartiers" style="list-style-type:none;">
-
 		</ul>
-		<button href="hideMe()"  id="loadgraph" class="btn btn-dark">Tout supprimer</button>
+	
 		</font>
 		</td></tr></table>
 		</td></tr></table>
