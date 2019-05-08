@@ -12,7 +12,7 @@
     }else { // Si la connexion se passe bien alors :
 		$q = $_GET['quart'];
 		//$q = mysql_real_escape_string($q);
-        $result = mysqli_query($mysqli,"SELECT latitude, longitude, site, adresse, quartier, dispo FROM borneswifi WHERE quartier = '$q' ");
+        $result = mysqli_query($mysqli,"SELECT latitude, longitude, site, adresse, quartier, dispo, nom_c FROM borneswifi WHERE quartier = '$q' ");
         while ( $row = mysqli_fetch_array($result)) {
 			//Generer la variable avec nom du quartier 
 			$bornes = $row['site']; // pour l'adaptation du nom de l'url
@@ -24,14 +24,19 @@
 		<center><B>'.$row['site'].'</B></center>\
 				<U>Quartier</U> : '.$row['quartier'].'\
 				</br>\
-				<U>Adresse</U> : '.$row['adresse'].'\
+				<U>Adresse</U> : <span id=\"adresse\">'.$row['adresse'].'</span>\
 				</br>\
-				<U>Disponibilité</U> : '.$row['dispo'].'\
-				</br>\
+				<U>Nom connexion</U> : <span id=\"nomC\">'.$row['nom_c'].'</span>\
+				<br>\
+				<U>Disponibilité</U> : <span id=\"dispo\">'.$row['dispo'].'</span>\
+				</br></br>\
 				<button class=\"btn-xs btn-dark\" id=\"modifier\" type=\"button\" onclick=\"Modifier()\">Modifier</button>\
-				<button class=\"btn-xs btn-dark\" id=\"sauvegarder\" type=\"submit\">Sauvegarder</button>\
+				<button class=\"btn-xs btn-dark\" id=\"supprimer\" type=\"button\">Supprimer</button>\
+				</br>\
+				<button class=\"btn-xs btn-dark\" id=\"sauvegarder\" type=\"button\">Sauvegarder</button>\
 				<button class=\"btn-xs btn-dark\" id=\"annuler\" type=\"button\" onclick=\"Annuler()\">Annuler</button>\
 		</form>");markers.addLayer('.$bornes.'); ';
         }
     }
+	
 ?>

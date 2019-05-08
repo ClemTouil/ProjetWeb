@@ -491,6 +491,9 @@
 		});
 
 		$("#borne").click(function(){
+			GeneralChart.setSelection([]);
+			PopChart.setSelection([]);
+			BorneChart.setSelection([]);
 			var borne = document.getElementById("chart_divB");
 			var pop = document.getElementById("chart_divP");
 			var gen = document.getElementById("chart_divG");
@@ -500,9 +503,11 @@
 			borne.style.display = "inline";
 			perso.style.display = "none";
 		});
-
+		
 		$("#borneetpop").click(function(){
-
+			GeneralChart.setSelection([]);
+			PopChart.setSelection([]);
+			BorneChart.setSelection([]);
 			var borne = document.getElementById("chart_divB");
 			var pop = document.getElementById("chart_divP");
 			var gen = document.getElementById("chart_divG");
@@ -515,7 +520,9 @@
 		});
 
 		$("#pop").click(function(){
-
+			GeneralChart.setSelection([]);
+			PopChart.setSelection([]);
+			BorneChart.setSelection([]);
 	  		var borne = document.getElementById("chart_divB");
 			var pop = document.getElementById("chart_divP");
 			var gen = document.getElementById("chart_divG");
@@ -632,34 +639,16 @@
 			var nomC = document.getElementById("nomC");
 			var text2 = nomC.innerHTML;
 			nomC.innerHTML="<input type=\"text\" id=\"nom_c\" value='"+text2+"'></input>";
+			
+			anu.onclick = function(){	dispo.innerHTML=textd;
+										nomC.innerHTML=text2;
+										mod.style.visibility="visible";
+										sup.style.visibility="visible";
+										sauv.style.visibility="hidden";
+										anu.style.visibility="hidden";
+										};
 
 			}
-
-		function Annuler(){
-			var mod= document.getElementById("modifier");
-			var sup= document.getElementById("supprimer");
-			var sauv= document.getElementById("sauvegarder");
-			var anu= document.getElementById("annuler");
-
-			// var site = document.getElementById("site");
-			// var texts = document.getElementById("site_brn").value;
-			// site.innerHTML=texts;
-
-			var dispo = document.getElementById("dispo");
-			var nomC = document.getElementById("nomC");
-			var text = document.getElementById("dispo_brn").value;
-			var text2 = document.getElementById("nom_c").value;
-			dispo.innerHTML=text;
-			nomC.innerHTML=text2;
-
-			mod.style.visibility="visible";
-			sup.style.visibility="visible";
-			sauv.style.visibility="hidden";
-			anu.style.visibility="hidden";
-
-			}
-
-
 
 		//FONCTION AJOUT QUARTIER DANS LISTE POUR CHART
 

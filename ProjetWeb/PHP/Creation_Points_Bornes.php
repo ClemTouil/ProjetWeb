@@ -27,7 +27,7 @@
         <button class=\"btn-xs btn-dark\" id=\"supprimer\" type=\"button\">Supprimer</button>\
         </br>\
 				<button class=\"btn-xs btn-dark\" id=\"sauvegarder\" type=\"button\">Sauvegarder</button>\
-				<button class=\"btn-xs btn-dark\" id=\"annuler\" type=\"button\" onclick=\"Annuler()\">Annuler</button>\
+				<button class=\"btn-xs btn-dark\" id=\"annuler\" type=\"button\">Annuler</button>\
 		</form>");markers.addLayer('.$bornes.'); ';
         }
     }
