@@ -7,6 +7,7 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<link type="text/css" rel="stylesheet" href="CSS/visualisation.css">
 	<link type="text/css" rel="stylesheet" href="CSS/map.css">
+	<link type="text/css" rel="stylesheet" href="CSS/JqueryUi.css">
 	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 	<link rel="stylesheet" href="https://unpkg.com/leaflet@1.4.0/dist/leaflet.css"
 		integrity="sha512-puBpdR0798OZvTTbP4A8Ix/l+A4dHDD0DGqYW6RQ+9jxkRFclaxxQb/SJAWZfWAkuyeQUytO7+7N4QKrDh+drA=="
@@ -15,6 +16,7 @@
 		integrity="sha512-QVftwZFqvtRNi0ZyCtsznlKSWOStnDORoefr1enyq5mVL4tmKB3S/EnC3rRJcxCPavG10IcrVGSmPh6Qw5lwrg=="
 		crossorigin=""></script>
 	<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js" integrity="sha256-VazP97ZCwtekAsvgPBSUwPFKdrwD3unUfSGVYrahUqU=" crossorigin="anonymous"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
 	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
 	<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
@@ -44,9 +46,10 @@
 		</br>
 	</header>
 
-	<form>
-	  <input type="text" name="search" placeholder="Search..">
-	</form>
+	<div class="ui-widget">
+	  <input type="text" id="search-bar" name="search" placeholder="Search..">
+		<button type="button" id="search-btn"><i class="fas fa-search"></i></button>
+	</div>
 
 
 
@@ -91,7 +94,7 @@
 		<font id="quartiersemplacement"face="Verdana" size="2" color="#000080">
 		<ul id="listeQuartiers" style="list-style-type:none;">
 		</ul>
-	
+
 		</font>
 		</td></tr></table>
 		</td></tr></table>
@@ -503,7 +506,7 @@
 			borne.style.display = "inline";
 			perso.style.display = "none";
 		});
-		
+
 		$("#borneetpop").click(function(){
 			GeneralChart.setSelection([]);
 			PopChart.setSelection([]);
@@ -639,7 +642,7 @@
 			var nomC = document.getElementById("nomC");
 			var text2 = nomC.innerHTML;
 			nomC.innerHTML="<input type=\"text\" id=\"nom_c\" value='"+text2+"'></input>";
-			
+
 			anu.onclick = function(){	dispo.innerHTML=textd;
 										nomC.innerHTML=text2;
 										mod.style.visibility="visible";
@@ -853,6 +856,22 @@
 			Display_Loadgraph();
 
 		};
+
+		$('#search-bar').autocomplete({
+    	source : 'PHP/ListeNomsQuartiers.php'
+		});
+
+		$("#search-btn").on( "click", function(){
+			var quartier = document.getElementById('search-bar').value;
+			quartier = quartier.split(' ').join('_');
+			quartier = quartier.split('\'').join('_');
+			quartier = quartier.split('-').join('_');
+			zoom = eval(quartier);
+			zoom.setStyle({color: '#666',opacity: 0.9,weight: 7});
+			zoom.openTooltip();
+			map.fitBounds(zoom.getBounds());
+		});
+
 	</script>
 
 	</script>
