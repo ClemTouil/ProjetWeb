@@ -41,15 +41,18 @@
 
 	<header id="entete">
 		</br>
-		<i id ="img"class="fas fa-wifi">  Bornes Wi-Fi à Toulouse</i>
+		
+		<div class="ui-widget">
+			<i id ="img_wifi"class="fas fa-wifi fa-3x">  Gère tes bornes !</i>
+			<input type="text" id="search-bar" name="search" placeholder="Search..">
+			<button type="button" id="search-btn" name="btnEnvoiForm"><i class="fas fa-search"></i></button>
+		</div>
 		</br>
 		</br>
+		
 	</header>
 
-	<div class="ui-widget">
-	  <input type="text" id="search-bar" name="search" placeholder="Search..">
-		<button type="button" id="search-btn"><i class="fas fa-search"></i></button>
-	</div>
+
 
 
 

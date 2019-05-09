@@ -24,9 +24,9 @@
 	width: 100%;
 }
 
-#img{
+#img_wifi{
+	left : 1%;
 	position : relative; 
-	left : 45%;
 	color : white;
 	
 
@@ -36,8 +36,8 @@
 
 input[name=search] {
 			position: relative;
-			top: 10px; left: 45%;
-			width: 130px;
+			left: 52%;
+			width: 350px;
 			box-sizing: border-box;
 			border: 2px solid #ccc;
 			border-radius: 4px;
@@ -51,10 +51,24 @@ input[name=search] {
 			transition: width 0.4s ease-in-out;
 }
 
-input[type=text]:focus {
-			width: 50%;
-}
 
+button[name=btnEnvoiForm] {
+			position: relative;
+			left: 51%;
+			width: 80px;
+			box-sizing: border-box;
+			border: 2px solid #ccc;
+			border-radius: 4px;
+			font-size: 16px;
+			background-color: white;
+			
+			background-position: 10px 10px; 
+			background-repeat: no-repeat;
+			padding: 12px 20px 12px 20px;
+			-webkit-transition: width 0.4s ease-in-out;
+			transition: width 0.4s ease-in-out;
+
+}
 
 
 #sauvegarder,#annuler{
