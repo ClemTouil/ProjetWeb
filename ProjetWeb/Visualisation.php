@@ -886,8 +886,22 @@
 		}) });
 
 		$("#search-btn").on( "click", function(){
+			var borne = document.getElementById("chart_divB");
+			var pop = document.getElementById("chart_divP");
+			var gen = document.getElementById("chart_divG");
+			//var num =document.getElementById("numero_ligne").innerHTML;
+			if(gen.style.display == "inline"){
+				GeneralChart.setSelection([]);
+			}else if(borne.style.display == "inline"){
+				BorneChart.setSelection([]);
+			}else if(pop.style.display == "inline"){
+				PopChart.setSelection([]);
+			}else{
+				GeneralChart.setSelection([]);
+			}
+			
 			map.closePopup();
-			var quart_de_borne = "";
+			//var quart_de_borne = "";
 			var num = "";
 			var quartier = document.getElementById('search-bar').value;
 			quartier = quartier.split(' ').join('_');
@@ -902,31 +916,28 @@
 				quartier = quartier.replace('è','e');
 				zoomBorne = eval(quartier);
 				zoomBorne.openPopup();
-				quart_de_borne = document.getElementById("quartier").innerHTML;
-				console.log(quart_de_borne);
-				quart_de_borne = quart_de_borne.split(' ').join('_');
-				quart_de_borne = quart_de_borne.split('\'').join('_');
-				quart_de_borne = quart_de_borne.split('-').join('_');
-				var qu = eval(quart_de_borne);
-				map.fitBounds(qu.getBounds());
-				qu.openTooltip();
-			    num =document.getElementById("numero_ligne").innerHTML;
+				//quart_de_borne = document.getElementById("quartier").innerHTML;
+				//console.log(quart_de_borne);
+				//quart_de_borne = quart_de_borne.split(' ').join('_');
+				//quart_de_borne = quart_de_borne.split('\'').join('_');
+				//quart_de_borne = quart_de_borne.split('-').join('_');
+				//var qu = eval(quart_de_borne);
+				//map.fitBounds(qu.getBounds());
+				//qu.openTooltip();
+			    //num =document.getElementById("numero_ligne").innerHTML;
 				
 				
 				//Affichage données dans le graphe à coté
-				var borne = document.getElementById("chart_divB");
-				var pop = document.getElementById("chart_divP");
-				var gen = document.getElementById("chart_divG");
 				
-				if(gen.style.display == "inline"){
-					GeneralChart.setSelection([{ row: num, column: 2 }])
-				}else if(borne.style.display == "inline"){
-					BorneChart.setSelection([{ row: num, column: 1 }])
-				}else if(pop.style.display == "inline"){
-					PopChart.setSelection([{ row: num, column: 1 }])
-				}else{
-					GeneralChart.setSelection([{ row: num, column: 2 }])
-				}
+				//if(gen.style.display == "inline"){
+					//GeneralChart.setSelection([{ row: num, column: 2 }])
+				//}else if(borne.style.display == "inline"){
+					//BorneChart.setSelection([{ row: num, column: 1 }])
+				//}else if(pop.style.display == "inline"){
+					//PopChart.setSelection([{ row: num, column: 1 }])
+				//}else{
+					//GeneralChart.setSelection([{ row: num, column: 2 }])
+				//}
 			}else{//CAS QUARTIER
 				zoomPolygone = eval(quartier);
 				zoomPolygone.setStyle({color: '#666',opacity: 0.9,weight: 7});
@@ -934,9 +945,6 @@
 				map.fitBounds(zoomPolygone.getBounds());
 			
 				//Affichage données dans le graphe à coté
-				var borne = document.getElementById("chart_divB");
-				var pop = document.getElementById("chart_divP");
-				var gen = document.getElementById("chart_divG");
 				var num =document.getElementById("numero_ligne").innerHTML;
 				if(gen.style.display == "inline"){
 					GeneralChart.setSelection([{ row: num, column: 1 }])
