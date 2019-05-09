@@ -15,7 +15,7 @@
 			$bornes = preg_replace('/[^A-Za-z0-9\-]/', '', $bornes);
 			echo 'var '.$bornes.' = L.marker(['.$row['latitude'].','.$row['longitude'].'], {icon: wifiIcon, riseOnHover: true}).bindPopup("<form method=\"post\">\
 		    <center><B id=\"nom_borne\">'.$row['site'].'</B></center>\
-				<U>Quartier</U> : '.$row['quartier'].'\
+				<U>Quartier</U> : <span id=\"quartier\">'.$row['quartier'].'</span>\
 				<br>\
 				<U>Adresse</U> : <span id=\"adresse\">'.$row['adresse'].'</span>\
 				<br>\

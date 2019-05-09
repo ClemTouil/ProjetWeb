@@ -859,20 +859,99 @@
 			Display_Loadgraph();
 
 		};
-
+		//Autocomplete pour quartiers et bornes
+        $('#search-bar').each(function() {
+            var ajaxes=[]
+            function killAjaxes(){
+                $.each(ajaxes,function(i,ajax){
+                    ajax.abort()
+                })
+            }
 		$('#search-bar').autocomplete({
-    	source : 'PHP/ListeNomsQuartiers.php'
-		});
+		         source: function(request, response) {
+                    
+                    killAjaxes()
+                    ajaxes=[
+                        $.getJSON('PHP/ListeNomsQuartiers.php', request, response),
+                        $.getJSON('PHP/ListeNomsBornes.php', request, response)
+                    ]
+                    $.when.apply(0,ajaxes).then(function() {
+                        response(Array.prototype.map.call(arguments, function(res) {
+                            return res[0]
+                        }).reduce(function(p, c) {
+                            return p.concat(c)
+                        }))
+                    })
+                }
+		}) });
 
 		$("#search-btn").on( "click", function(){
+			map.closePopup();
+			var quart_de_borne = "";
+			var num = "";
 			var quartier = document.getElementById('search-bar').value;
 			quartier = quartier.split(' ').join('_');
 			quartier = quartier.split('\'').join('_');
 			quartier = quartier.split('-').join('_');
-			zoom = eval(quartier);
-			zoom.setStyle({color: '#666',opacity: 0.9,weight: 7});
-			zoom.openTooltip();
-			map.fitBounds(zoom.getBounds());
+			
+			//CAS BORNE
+			if (quartier != quartier.toUpperCase()){
+				
+				quartier = quartier.split('_').join('');
+				quartier = quartier.replace('é','e');
+				quartier = quartier.replace('è','e');
+				zoomBorne = eval(quartier);
+				zoomBorne.openPopup();
+				quart_de_borne = document.getElementById("quartier").innerHTML;
+				console.log(quart_de_borne);
+				quart_de_borne = quart_de_borne.split(' ').join('_');
+				quart_de_borne = quart_de_borne.split('\'').join('_');
+				quart_de_borne = quart_de_borne.split('-').join('_');
+				var qu = eval(quart_de_borne);
+				map.fitBounds(qu.getBounds());
+				qu.openTooltip();
+			    num =document.getElementById("numero_ligne").innerHTML;
+				
+				
+				//Affichage données dans le graphe à coté
+				var borne = document.getElementById("chart_divB");
+				var pop = document.getElementById("chart_divP");
+				var gen = document.getElementById("chart_divG");
+				
+				if(gen.style.display == "inline"){
+					GeneralChart.setSelection([{ row: num, column: 2 }])
+				}else if(borne.style.display == "inline"){
+					BorneChart.setSelection([{ row: num, column: 1 }])
+				}else if(pop.style.display == "inline"){
+					PopChart.setSelection([{ row: num, column: 1 }])
+				}else{
+					GeneralChart.setSelection([{ row: num, column: 2 }])
+				}
+			}else{//CAS QUARTIER
+				zoomPolygone = eval(quartier);
+				zoomPolygone.setStyle({color: '#666',opacity: 0.9,weight: 7});
+				zoomPolygone.openTooltip();
+				map.fitBounds(zoomPolygone.getBounds());
+			
+				//Affichage données dans le graphe à coté
+				var borne = document.getElementById("chart_divB");
+				var pop = document.getElementById("chart_divP");
+				var gen = document.getElementById("chart_divG");
+				var num =document.getElementById("numero_ligne").innerHTML;
+				if(gen.style.display == "inline"){
+					GeneralChart.setSelection([{ row: num, column: 1 }])
+				}else if(borne.style.display == "inline"){
+					BorneChart.setSelection([{ row: num, column: 1 }])
+				}else if(pop.style.display == "inline"){
+					PopChart.setSelection([{ row: num, column: 1 }])
+				}else{
+					GeneralChart.setSelection([{ row: num, column: 1 }])
+				}
+			};
+
+
+				
+			
 		});
 
 	</script>
